@@ -1,0 +1,112 @@
+/* Movimento dos assets (docs/ESTETICA.md, seção 9).
+   As animações que não param sozinhas (a chama) só rodam se a pessoa não pediu menos
+   movimento, e podem ser pausadas pondo data-movimento="parado" em <html>. */
+
+.foco-chama,
+.foco-brilho,
+.foco-brasa-1,
+.foco-brasa-2,
+.fumaca-1,
+.fumaca-2,
+.fumaca-3 {
+  transform-box: fill-box;
+}
+
+.foco-chama {
+  transform-origin: 50% 100%;
+}
+
+.foco-brilho {
+  transform-origin: 50% 50%;
+}
+
+/* O aviso se lê primeiro pelo tamanho da chama: pequena com 2 rodadas, grande com 1.
+   As brasinhas contam as rodadas que faltam. */
+.foco-chama {
+  scale: 0.82;
+  transition: scale 300ms ease-out;
+}
+
+.foco--aviso-1 .foco-chama {
+  scale: 1.12;
+}
+
+.foco-brasa-2 {
+  transition: opacity 150ms ease-out;
+}
+
+.foco--aviso-1 .foco-brasa-2 {
+  opacity: 0;
+}
+
+@keyframes chama-oscila {
+  from {
+    transform: scaleY(0.94) rotate(-1.5deg);
+  }
+  to {
+    transform: scaleY(1.06) rotate(1.5deg);
+  }
+}
+
+@keyframes brilho-pulsa {
+  from {
+    opacity: 0.65;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-movimento='parado']) .foco-chama {
+    animation: chama-oscila 0.6s ease-in-out infinite alternate;
+  }
+
+  :root:not([data-movimento='parado']) .foco-brilho {
+    animation: brilho-pulsa 0.6s ease-in-out infinite alternate;
+  }
+
+  :root:not([data-movimento='parado']) .foco--aviso-1 .foco-chama,
+  :root:not([data-movimento='parado']) .foco--aviso-1 .foco-brilho {
+    animation-duration: 0.35s;
+  }
+}
+
+/* Fumaça de foco apagado: as três bolhas sobem e somem, uma depois da outra. */
+@keyframes fumaca-sobe {
+  from {
+    opacity: 1;
+    transform: translateY(6px) scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-22px) scale(1.15);
+  }
+}
+
+@keyframes some {
+  to {
+    opacity: 0;
+  }
+}
+
+.fumaca--subindo .fumaca-1,
+.fumaca--subindo .fumaca-2,
+.fumaca--subindo .fumaca-3 {
+  transform-origin: 50% 50%;
+  animation: some 150ms ease-out forwards;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: fumaca-sobe 500ms ease-out forwards;
+  }
+}
+
+.fumaca--subindo .fumaca-2 {
+  animation-delay: 70ms;
+}
+
+.fumaca--subindo .fumaca-3 {
+  animation-delay: 140ms;
+}

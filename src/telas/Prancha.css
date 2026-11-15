@@ -1,0 +1,116 @@
+.prancha {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.prancha__topo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.prancha__logo {
+  width: min(100%, 420px);
+  height: auto;
+}
+
+.prancha section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prancha__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 28px 36px;
+}
+
+.prancha__fila--tabuleiros,
+.prancha__fila--cartas {
+  align-items: flex-start;
+}
+
+.amostra {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+.amostra__tamanhos {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+}
+
+.amostra figcaption {
+  max-width: 44ch;
+  font-size: var(--tamanho-rotulo);
+  font-weight: 700;
+}
+
+.prancha__tabuleiro-celular {
+  width: 318px;
+}
+
+.prancha__tabuleiro-grande {
+  width: min(100%, 560px);
+}
+
+.prancha__capa {
+  display: block;
+  width: 720px;
+  max-width: 100%;
+  aspect-ratio: 4 / 3;
+  /* Esmaece a parte de baixo, onde os sulcos saem do quadro. */
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
+}
+
+.prancha .carta {
+  width: min(100%, 360px);
+}
+
+.prancha__paleta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  padding: 20px;
+}
+
+.prancha__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prancha__grupo h3 {
+  font-size: 1rem;
+}
+
+.prancha__cor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--tamanho-rotulo);
+}
+
+.prancha__cor span {
+  width: 36px;
+  height: 24px;
+  border: 1px solid var(--terra-900);
+  border-radius: 6px;
+}
+
+.prancha__tipos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}

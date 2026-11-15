@@ -10,9 +10,14 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "tipos": "tsc --noEmit",
-    "sim": "node tools/sim-fogo.mjs"
+    "sim": "node tools/sim-fogo.mjs",
+    "arte:conferir": "node tools/conferir-arte.mjs",
+    "arte:capa": "node tools/montar-capa.mjs",
+    "arte:png": "node tools/exportar-png.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/fredoka": "^5.3.0",
+    "@fontsource-variable/nunito": "^5.3.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
@@ -21,8 +26,10 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
+    "sharp": "^0.35.5",
     "typescript": "^7.0.2",
     "vite": "^8.3.8",
+    "vite-plugin-svgr": "^5.2.0",
     "vitest": "^5.1.0"
   }
 }

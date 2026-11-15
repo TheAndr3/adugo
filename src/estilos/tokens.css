@@ -1,0 +1,48 @@
+/* Paleta e tipografia (docs/ESTETICA.md, seções 2 e 3). */
+:root {
+  /* Chão */
+  --terra-100: #ebd3a8;
+  --terra-300: #e0be8e;
+  --terra-500: #c99a62;
+  --terra-700: #6b4226;
+  --terra-900: #4a2e1a;
+
+  /* Pedra (cachorros) */
+  --pedra-300: #a8a39c;
+  --pedra-500: #66615c;
+  --pedra-800: #3f3b38;
+
+  /* Onça */
+  --onca-300: #f2c057;
+  --onca-400: #e8a93a;
+  --onca-600: #c9780f;
+  --onca-pinta: #3a2515;
+
+  /* Fogo: só aparece no fogo */
+  --brasa-300: #ffc145;
+  --fogo-500: #f26b1d;
+  --fogo-700: #c1280f;
+
+  /* Queimado */
+  --carvao-900: #231f1d;
+  --carvao-700: #3b3532;
+  --cinza-400: #9a948e;
+
+  /* Vida */
+  --mata-600: #4c6a2c;
+  --mata-400: #7fa04a;
+
+  /* Papel (cartas e painéis) */
+  --papel-100: #f6ebd3;
+  --papel-300: #e9d8b4;
+
+  --fonte-titulo: 'Fredoka Variable', 'Trebuchet MS', system-ui, sans-serif;
+  --fonte-texto: 'Nunito Variable', system-ui, sans-serif;
+
+  --tamanho-titulo: clamp(2rem, 6vmin, 4rem);
+  --tamanho-texto: 1.125rem;
+  --tamanho-carta: clamp(1.25rem, 2.6vmin, 2.125rem);
+  --tamanho-rotulo: 0.875rem;
+
+  --sombra-papel: 0 4px 0 rgb(74 46 26 / 0.25);
+}

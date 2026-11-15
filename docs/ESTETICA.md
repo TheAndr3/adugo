@@ -121,7 +121,7 @@ O traço não é reto. Cada trecho entre dois pontos ganha um ponto de controle 
 - Só cores da paleta.
 - **Sem sombra projetada dentro do arquivo.** A sombra no chão é desenhada pelo tabuleiro, para poder mudar quando a peça sobe.
 - Partes que animam têm `class` com o nome indicado na tabela. A animação fica no CSS, nunca dentro do SVG.
-- Passar por SVGO antes de entrar no repositório.
+- Conferir com `npm run arte:conferir` (`tools/conferir-arte.mjs` valida `viewBox`, limite de peso, `id`s, cores da paleta e itens proibidos como `feTurbulence` fora do chão ou degradê em traço).
 
 ### 5.2 Inventário
 
@@ -129,7 +129,7 @@ O traço não é reto. Cada trecho entre dois pontos ganha um ponto de controle 
 | --- | --- | --- | --- | --- |
 | `pecas/cachorro-a.svg`, `-b`, `-c` | SVG | `0 0 64 64` | 56 unidades | 2 KB cada |
 | `pecas/onca.svg` | SVG | `0 0 80 80` | 72 unidades | 4 KB |
-| `fogo/foco.svg` | SVG | `0 0 96 96` | 84 unidades | 4 KB |
+| `fogo/foco.svg` | SVG | `0 0 96 96` | 96 unidades | 4 KB |
 | `fogo/queimado.svg` | SVG | `0 0 120 120` | 96 unidades | 4 KB |
 | `fogo/fumaca.svg` | SVG | `0 0 96 96` | 84 unidades | 2 KB |
 | `fogo/broto.svg` | SVG | `0 0 48 48` | 36 unidades | 1,5 KB |
@@ -140,9 +140,9 @@ O traço não é reto. Cada trecho entre dois pontos ganha um ponto de controle 
 | `icones/*.svg` (10 ícones) | SVG | `0 0 24 24` | 24 a 32 px | 1 KB cada |
 | `public/favicon.svg` | SVG | `0 0 64 64` | Aba do navegador | 2 KB |
 | `public/icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180) | PNG | — | Ícone de atalho | 40 KB cada |
-| `public/og.png` | PNG | 1200 × 630 px | Prévia do link em mensagens | 300 KB |
+| `public/og.jpg` | JPEG | 1200 × 630 px | Prévia do link em mensagens | 300 KB |
 
-Os PNG são exportados dos SVG por script. Nenhum é desenhado à parte.
+Os PNG e o JPEG (`og.jpg`, ~203 KB; em PNG a textura granulada do chão passava de 400 KB) são exportados dos SVG por script (`npm run arte:png`). Nenhum é desenhado à parte.
 
 ### 5.3 Direção de arte por asset
 
@@ -151,7 +151,7 @@ Os PNG são exportados dos SVG por script. Nenhum é desenhado à parte.
 - Preenchimento: degradê radial com centro em 35% / 30%, de `pedra-300` para `pedra-500`.
 - Contorno: `pedra-800`, largura 2.
 - Detalhe: 3 a 5 pintinhas `pedra-800` com opacidade 0,3 e uma faixa de brilho curta `pedra-300` no alto à esquerda.
-- No tabuleiro, cada cachorro recebe uma variante e uma rotação fixas pelo seu número, para não mudar de cara durante a partida.
+- No tabuleiro, cada cachorro recebe uma variante e uma leve variação de tamanho (`0,95` a `1,04`) fixas pelo seu número, **sem rotação** (girar a pedra girava também o brilho e quebrava a luz vinda de cima à esquerda).
 
 **Onça (`onca.svg`).** Uma pedra maior, pintada.
 - Forma: seixo ovalado irregular, cerca de 70 × 64.
@@ -164,8 +164,8 @@ Os PNG são exportados dos SVG por script. Nenhum é desenhado à parte.
 - Base (`class="foco-base"`): mancha chamuscada de borda irregular, raio cerca de 34, `carvao-700` com opacidade 0,85.
 - Brilho (`class="foco-brilho"`): degradê radial de `brasa-300` (centro, opacidade 0,7) a transparente, raio 30.
 - Chama (`class="foco-chama"`): três línguas sobrepostas, de fora para dentro `fogo-700`, `fogo-500`, `brasa-300`. Altura 44, ponta levemente inclinada para a direita. Contornos arredondados, de desenho de livro infantil.
-- Contador: duas brasinhas embaixo da chama (`class="foco-brasa-1"` e `class="foco-brasa-2"`), círculos de raio 5 em `brasa-300` com contorno `carvao-900` de 1,5. Com 2 rodadas de aviso aparecem as duas; com 1, só uma.
-- Leitura sem cor: forma de chama mais número de brasinhas.
+- Contador: duas brasinhas em diagonal, de um lado só (`class="foco-brasa-1"` e `class="foco-brasa-2"`), círculos em `brasa-300` com contorno `carvao-900` de 1,5 (lado a lado embaixo da chama pareciam olhos). O aviso se lê primeiro pelo tamanho da chama: menor (`scale: 0.82`) com 2 rodadas e duas brasinhas; maior (`scale: 1.12`) com 1 rodada e uma brasinha.
+- Leitura sem cor: forma e tamanho da chama mais número de brasinhas.
 
 **Ponto queimado (`queimado.svg`).** O que sobra.
 - Mancha de borda bem irregular, cerca de 96 de diâmetro, `carvao-900`, com miolo `carvao-700`.
@@ -190,9 +190,9 @@ Os PNG são exportados dos SVG por script. Nenhum é desenhado à parte.
 - Traço com a mesma irregularidade leve do tabuleiro. O "O" final pode ter uma pedrinha da onça ao lado.
 - Letras são caminhos (`<path>`), nunca `<text>`.
 
-**Capa (`capa.svg`).** Ilustração da tela inicial.
-- Composição: chão visto de cima; um canto do tabuleiro entrando pela direita; a pedra da onça em primeiro plano à esquerda; quatro ou cinco cachorros ao fundo; um foco de calor pequeno no canto superior direito, com um fio de fumaça.
-- Usa os mesmos assets (referenciados ou copiados), para a capa e o jogo terem exatamente a mesma cara.
+**Capa (`capa.svg`).** Ilustração da tela inicial, montada por script (`npm run arte:capa`).
+- Composição com fundo transparente (apoia-se sobre o chão da própria página, sem textura de chão ou degradê em traço embutidos, para renderizar instantaneamente no navegador): um canto do tabuleiro entrando pela direita; a pedra da onça em primeiro plano à esquerda; cinco cachorros ao fundo; um foco de calor pequeno no canto superior direito, com um fio de fumaça.
+- Usa os mesmos assets, para a capa e o jogo terem exatamente a mesma cara.
 - Deixa o terço superior esquerdo livre para o logotipo e o terço inferior livre para os botões.
 
 **Ícones (`icones/`).** Traço de 2,25, pontas e cantos arredondados, cor `currentColor`, desenho levemente irregular (nenhum círculo perfeito).
@@ -255,13 +255,13 @@ Os PNG são exportados dos SVG por script. Nenhum é desenhado à parte.
 | Onça pula | Arco: sobe até escala 1,15 e desce | 320 ms |
 | Cachorro capturado | Encolhe e some, com três grãos de poeira `terra-500` | 300 ms |
 | Foco nasce | Base aparece, chama cresce de 0 a 100% | 400 ms |
-| Foco com aviso 2 | Chama oscila (escala vertical 0,94 a 1,06) e brilho pulsa | Ciclo de 1,2 s |
-| Foco com aviso 1 | Chama 20% maior, oscila mais rápido; uma brasinha some | Ciclo de 0,7 s |
+| Foco com aviso 2 | Chama menor (`scale: 0.82`) oscila (escala vertical 0,94 a 1,06) e brilho pulsa; 2 brasinhas | Ciclo de 1,2 s (`0.6s alternate`) |
+| Foco com aviso 1 | Chama maior (`scale: 1.12`), oscila mais rápido; a segunda brasinha some | Ciclo de 0,7 s (`0.35s alternate`) |
 | Foco apagado | Chama encolhe, `fumaca` sobe e some, `broto` aparece e some | 500 ms + 1,5 s |
 | Ponto queima | Chama cresce até 160%, clarão `brasa-300`, `queimado` surge por baixo, sulcos vizinhos viram tracejados | 700 ms |
 | Território destruído | Tela escurece para `carvao-900` a 60% de fora para dentro | 900 ms |
 
-Com `prefers-reduced-motion`, tudo vira troca de opacidade de 150 ms e a chama fica parada.
+As animações contínuas da chama só são declaradas dentro de `@media (prefers-reduced-motion: no-preference)` e param quando `<html>` tem `data-movimento="parado"` (controlado pelo botão de pausa na prancha e na tela da partida). Com `prefers-reduced-motion: reduce`, transições viram troca de opacidade de 150 ms e a chama fica parada.
 
 ## 10. Telas
 
@@ -349,7 +349,7 @@ Depois de gerar, conferir: a cor média do chão está perto de `#E0BE8E`? O lad
 
 1. Entregar à IA este documento e o nome do asset.
 2. A IA devolve um arquivo `.svg` que segue a seção 5.1.
-3. Colocar o arquivo em `src/arte/` e abrir a **prancha** (`/prancha` no modo de desenvolvimento): uma página que mostra todos os assets sobre o chão, no tamanho de celular e no dobro.
+3. Colocar o arquivo em `src/arte/`, rodar `npm run arte:conferir` e abrir a **prancha** (`/#prancha`): uma página que mostra todos os assets sobre o chão, no tamanho de celular e no dobro.
 4. Olhar a prancha renderizada, e não o código. Aprovar só se:
    - lê-se de relance no tamanho de celular (cachorro com 34 px, onça com 43 px);
    - a onça se destaca dos cachorros e do chão;
