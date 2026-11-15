@@ -532,23 +532,26 @@ describe('partidas aleatórias', () => {
     };
   }
 
+  // Checagens em código puro: `expect` a cada estado deixaria milhares de partidas lentas demais.
   function conferir(s: Estado): void {
+    const falha = (motivo: string): never => {
+      throw new Error(`Invariante quebrada (${motivo}) na rodada ${s.rodada}: ${JSON.stringify(s)}`);
+    };
     const vivos = s.caes.filter((c): c is Ponto => c !== null);
-    expect(vivos).toHaveLength(14 - s.capturas);
+    if (vivos.length !== 14 - s.capturas) falha("cachorros vivos");
     const pecas = [s.onca, ...vivos];
-    expect(new Set(pecas).size).toBe(pecas.length);
-    for (const p of pecas) expect(s.queimados).not.toContain(p);
-    expect(new Set(s.queimados).size).toBe(s.queimados.length);
-    expect(s.queimados.length).toBeLessThanOrEqual(s.config.fogo.limiteQueimados);
-    expect(s.rodada).toBeLessThanOrEqual(s.config.maxRodadas);
+    if (new Set(pecas).size !== pecas.length) falha("duas peças no mesmo ponto");
+    if (pecas.some((p) => s.queimados.includes(p))) falha("peça em ponto queimado");
+    if (new Set(s.queimados).size !== s.queimados.length) falha("queimado repetido");
+    if (s.queimados.length > s.config.fogo.limiteQueimados) falha("queimados acima do limite");
+    if (s.queimados.some((p) => TOCA.has(p))) falha("toca queimada");
+    if (s.rodada > s.config.maxRodadas) falha("rodada acima do máximo");
     if (s.foco) {
-      expect(TOCA.has(s.foco.ponto)).toBe(false);
-      expect(s.queimados).not.toContain(s.foco.ponto);
-      expect(pecas).not.toContain(s.foco.ponto);
-      expect(s.foco.aviso).toBeGreaterThanOrEqual(1);
-      expect(s.foco.aviso).toBeLessThanOrEqual(s.config.fogo.aviso);
+      if (TOCA.has(s.foco.ponto)) falha("foco na toca");
+      if (s.queimados.includes(s.foco.ponto)) falha("foco em ponto queimado");
+      if (pecas.includes(s.foco.ponto)) falha("foco sob uma peça");
+      if (s.foco.aviso < 1 || s.foco.aviso > s.config.fogo.aviso) falha("aviso fora da faixa");
     }
-    for (const p of s.queimados) expect(TOCA.has(p)).toBe(false);
   }
 
   function jogarAteOFim(modo: 'classico' | 'territorio', semente: number): Estado {
@@ -557,7 +560,7 @@ describe('partidas aleatórias', () => {
     for (let i = 0; i < 2000 && !s.resultado; i++) {
       conferir(s);
       const jogadas = jogadasPossiveis(s);
-      expect(jogadas.length).toBeGreaterThan(0);
+      if (jogadas.length === 0) throw new Error(`Sem jogadas e sem resultado: ${JSON.stringify(s)}`);
       s = congelar(aplicar(s, jogadas[Math.floor(rnd() * jogadas.length)]!).estado);
     }
     conferir(s);
@@ -572,7 +575,7 @@ describe('partidas aleatórias', () => {
       fins.add(fim.resultado!.tipo);
     }
     expect(fins.has('territorio')).toBe(true);
-  });
+  }, 60_000);
 
   it('no modo clássico sempre terminam e nunca têm fogo', () => {
     for (let semente = 1; semente <= 150; semente++) {
@@ -581,5 +584,5 @@ describe('partidas aleatórias', () => {
       expect(fim.focosNascidos).toBe(0);
       expect(fim.queimados).toEqual([]);
     }
-  });
+  }, 60_000);
 });
