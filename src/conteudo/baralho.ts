@@ -147,8 +147,21 @@ export function extrairCartaDaJogada(
   const modo = opcoes.modo ?? 'territorio';
   const config = opcoes.config ?? CONFIG;
 
-  if (modo === 'classico' || eventos.length === 0) {
+  if (modo === 'classico') {
     return { baralho, carta: null };
+  }
+
+  // Mesmo sem eventos (ex.: ao clicar em "Encerrar jogada" após captura em cadeia),
+  // precisamos atualizar o flag `oncaDisparouNaJogada` quando `emCadeia === false`.
+  if (eventos.length === 0) {
+    const proximoFlagOnca = opcoes.emCadeia === false ? false : baralho.oncaDisparouNaJogada;
+    if (proximoFlagOnca === baralho.oncaDisparouNaJogada) {
+      return { baralho, carta: null };
+    }
+    return {
+      baralho: { ...baralho, oncaDisparouNaJogada: proximoFlagOnca },
+      carta: null,
+    };
   }
 
   let apagadosNaPartida = baralho.apagadosNaPartida;

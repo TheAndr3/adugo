@@ -84,37 +84,49 @@ export function TelaSobre({ aoVoltar }: TelaSobreProps) {
             <li>
               <a
                 className="sobre__link"
-                href="https://plataforma.brasil.mapbiomas.org/fogo"
+                href="https://www.scielo.br/j/ra/a/3y56QfgP5rp5rrzjCQ4ZH7p/?lang=pt"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                MapBiomas Fogo — Mapeamento de Cicatrizes de Fogo no Brasil
+                Funerais entre os Bororo: imagens da refiguração do mundo
+              </a>{' '}
+              (Sylvia Caiuby Novaes — Revista de Antropologia / SciELO, 2006)
+            </li>
+            <li>
+              <a
+                className="sobre__link"
+                href="https://anais.sbem-go.com.br/index.php/EnGEM/article/view/66"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Jogo da Onça: um relato de experiência em aulas de matemática para turma de EAJA
+              </a>{' '}
+              (Faria, Araújo e Baumann — EnGEM / SBEM-GO, 2017)
+            </li>
+            <li>
+              <a
+                className="sobre__link"
+                href="https://brasil.mapbiomas.org/area-queimada-no-brasil-em-2024-supera-media-historica-em-62/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                MapBiomas Fogo — Relatório Anual do Fogo no Brasil
               </a>
             </li>
             <li>
               <a
                 className="sobre__link"
-                href="https://terrabrasilis.dpi.inpe.br/queimadas/portal/"
+                href="https://data.inpe.br/inpe-atualiza-painel-do-terrabrasilis-sobre-queimadas-desmatamento-e-tamanhos-de-propriedade/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Programa Queimadas — Monitoramento por Satélites (INPE)
+                Programa Queimadas e TerraBrasilis (INPE)
               </a>
             </li>
             <li>
               <a
                 className="sobre__link"
-                href="https://lasa.ufrj.br/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Sistema ALARMES — Laboratório de Aplicações de Satélites Ambientais (LASA/UFRJ)
-              </a>
-            </li>
-            <li>
-              <a
-                className="sobre__link"
-                href="https://www.gov.br/ibama/pt-br/assuntos/fiscalizacao-e-protecao-ambiental/manejo-integrado-do-fogo"
+                href="https://www.gov.br/ibama/pt-br/assuntos/fiscalizacao-e-protecao-ambiental/manejo-integrado-do-fogo/sobre-o-manejo-integrado-do-fogo"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -124,11 +136,11 @@ export function TelaSobre({ aoVoltar }: TelaSobreProps) {
             <li>
               <a
                 className="sobre__link"
-                href="https://www.gov.br/icmbio/pt-br/assuntos/centros-de-pesquisa/mamiferos-carnivoros"
+                href="https://www.gov.br/icmbio/pt-br/assuntos/biodiversidade/programa-de-manejo-populacional/onca-pintada"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Centro Nacional de Pesquisa e Conservação de Mamíferos Carnívoros (CENAP/ICMBio)
+                Programa de Manejo Populacional da Onça-pintada (CENAP/ICMBio)
               </a>
             </li>
           </ul>

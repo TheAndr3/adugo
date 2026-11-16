@@ -149,6 +149,20 @@ describe('gatilhos e prioridades (extrairCartaDaJogada)', () => {
     expect(rodadaSeguinte.carta?.tipo).toBe('onca');
   });
 
+  it('limpa oncaDisparouNaJogada quando a onça encerra a cadeia sem eventos', () => {
+    const b0 = criarBaralho(1);
+    const pulo1 = extrairCartaDaJogada(
+      b0,
+      [{ tipo: 'capturou', cao: 0, de: P(2, 0), sobre: P(2, 1), para: P(2, 2) }],
+      { emCadeia: true },
+    );
+    expect(pulo1.baralho.oncaDisparouNaJogada).toBe(true);
+
+    const encerrou = extrairCartaDaJogada(pulo1.baralho, [], { emCadeia: false });
+    expect(encerrou.carta).toBeNull();
+    expect(encerrou.baralho.oncaDisparouNaJogada).toBe(false);
+  });
+
   it('respeita a prioridade Queimada > Onça e Bororo > Cuidado quando gatilhos coincidem', () => {
     const b0 = criarBaralho(1);
 

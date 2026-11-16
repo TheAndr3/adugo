@@ -27,9 +27,9 @@ Toda decisão de regra, números e direção visual já está fechada e document
 | **Arte SVG, Prancha e Imagens (`src/arte/`, `public/`)** | Concluído (100%) | 23 SVGs validados por `npm run arte:conferir`, prancha em `/#prancha` (`Prancha.tsx`), `favicon.svg`, ícones PNG e `og.jpg` exportados (`npm run arte:png`). |
 | **Tabuleiro Visual (`src/componentes/`)** | Concluído (100%) | `Tabuleiro.tsx` e `sulcos.ts` prontos, com sulcos irregulares de semente fixa, marcadores de jogada, toque, teclado e `aria-label` em cada ponto. |
 | **Interface da Partida & Telas** | Em andamento | Telas `TelaInicio.tsx`, `TelaComoJogar.tsx`, `TelaFim.tsx` e `TelaSobre.tsx` concluídas (Issues [#6](https://github.com/TheAndr3/adugo/issues/6) e [#7](https://github.com/TheAndr3/adugo/issues/7)); falta apenas [Issue #4](https://github.com/TheAndr3/adugo/issues/4) (`TelaPartida.tsx`). |
-| **18 Cartas Educativas (`src/conteudo/`)** | Concluído (100%) | `cartas.json` (18 cartas conferidas), `baralho.ts` (9 testes em `baralho.test.ts`), `<CartaoCarta />` e `<ModalCarta />` prontos — [Issue #5](https://github.com/TheAndr3/adugo/issues/5). |
+| **18 Cartas Educativas (`src/conteudo/`)** | Concluído (100%) | `cartas.json` (18 cartas com fontes verificadas), `baralho.ts` (10 testes em `baralho.test.ts`), `<CartaoCarta />` e `<ModalCarta />` prontos — [Issue #5](https://github.com/TheAndr3/adugo/issues/5). |
 | **Simulador de Balanceamento (`tools/`)** | Pendente | [Issue #8](https://github.com/TheAndr3/adugo/issues/8) — script de terminal para medir o equilíbrio Onça vs. Cachorros e calibrar `config.ts` (o jogo em si é 100% para 2 pessoas, sem bot na tela). |
-| **Responsividade, Vercel, QA e Relatório** | Pendente | Issues [#9](https://github.com/TheAndr3/adugo/issues/9) (PNGs e `og.jpg` já prontos; falta layout responsivo da partida e deploy), [#10](https://github.com/TheAndr3/adugo/issues/10) e [#11](https://github.com/TheAndr3/adugo/issues/11). |
+| **Responsividade, Vercel, QA e Relatório** | Em andamento | 1ª rodada de revisão de código, acessibilidade e conferência de fontes concluída em [Issue #10](https://github.com/TheAndr3/adugo/issues/10); faltam Issues [#9](https://github.com/TheAndr3/adugo/issues/9) (layout responsivo da partida + deploy Vercel), revisão final pós-#4/#8 em #10 e [#11](https://github.com/TheAndr3/adugo/issues/11). |
 
 ---
 
@@ -78,7 +78,7 @@ O trabalho foi dividido em **11 Issues no GitHub** pensadas para que várias pes
 | **[#7](https://github.com/TheAndr3/adugo/issues/7)** | Tarefa 7B | Tela **"Como se joga"** com 4 passos e mini tabuleiros animados usando `<Tabuleiro />` e `criarEstado()` | `medium` | **Concluída** | `src/telas/TelaComoJogar.tsx` |
 | **[#8](https://github.com/TheAndr3/adugo/issues/8)** | Tarefa 4 | Simulador de balanceamento no terminal (`tools/`): melhorar a simulação dos cachorros para medir equilíbrio Onça vs. Cachorros e calibrar números | `xhigh` | **Liberada Agora (Paralelizável)** | `tools/sim-fogo.mjs`, `src/motor/config.ts` |
 | **[#9](https://github.com/TheAndr3/adugo/issues/9)** | Tarefa 8 | Ajuste de responsividade da partida (celular em pé vs. projetor >= 20px) e publicação na Vercel *(PNGs e `og.jpg` já prontos)* | `medium` | Após #4 | `src/estilos/layout.css`, `vercel.json` |
-| **[#10](https://github.com/TheAndr3/adugo/issues/10)** | Tarefa 5 | Revisão final do código, contrastes WCAG, leitores de tela, teclado, `prefers-reduced-motion` e `npm run arte:conferir` | `high` | Amanhã à noite (após integração) | Todo o repositório |
+| **[#10](https://github.com/TheAndr3/adugo/issues/10)** | Tarefa 5 | Revisão final do código, contrastes WCAG, leitores de tela, teclado, `prefers-reduced-motion` e `npm run arte:conferir` | `high` | **Em andamento** *(1ª revisão concluída; fechamento pós-#4/#8)* | Todo o repositório |
 | **[#11](https://github.com/TheAndr3/adugo/issues/11)** | Tarefa 9 | Fonte publicada em português sobre o Adugo Bororo, relato dos testes com pessoas e texto do relatório | `medium` | **Pesquisa já / Relato após testes** | `docs/RELATORIO.md` |
 
 ---

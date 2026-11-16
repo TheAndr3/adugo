@@ -2,7 +2,16 @@
 // Exporta `CartaoCarta` (para uso em lista na tela final ou na prancha) e
 // `ModalCarta` (que abre sobre o tabuleiro via <dialog> nativo na top layer).
 
-import { useEffect, useId, useRef, type ComponentType, type SVGProps } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  type ComponentType,
+  type FormEvent,
+  type RefObject,
+  type SVGProps,
+} from 'react';
 import { IconeBroto, IconeChama, IconePataOnca } from '../arte';
 import { TITULO_CARTA, type Carta, type TipoCarta } from '../conteudo';
 import './ModalCarta.css';
@@ -15,6 +24,27 @@ const ICONE_POR_TIPO: Readonly<Record<TipoCarta, SvgIcone>> = {
   onca: IconePataOnca,
 };
 
+let suportaTransicaoDisplay: boolean | undefined;
+
+function podeTransicionarDisplay(): boolean {
+  if (suportaTransicaoDisplay !== undefined) return suportaTransicaoDisplay;
+  if (!window.CSS?.supports?.('transition-behavior', 'allow-discrete') || !document.body) {
+    return false;
+  }
+  const teste = document.createElement('div');
+  teste.style.cssText = 'transition: display 1s allow-discrete !important; display: block;';
+  document.body.appendChild(teste);
+  getComputedStyle(teste).display;
+  teste.style.display = 'none';
+  suportaTransicaoDisplay = getComputedStyle(teste).display === 'block';
+  teste.remove();
+  return suportaTransicaoDisplay;
+}
+
+function suportaSaidaTopLayer(): boolean {
+  return Boolean(window.CSS?.supports?.('overlay', 'auto')) && podeTransicionarDisplay();
+}
+
 export interface CartaoCartaProps {
   readonly carta: Carta;
   /** ID opcional para o cabeçalho (usado por `aria-labelledby` do `<dialog>`). */
@@ -23,6 +53,8 @@ export interface CartaoCartaProps {
   readonly aoContinuar?: () => void;
   /** Se `true`, o botão "Continuar" funciona como submit de `<form method="dialog">`. */
   readonly dentroDeDialog?: boolean;
+  /** Ref opcional para focar o botão "Continuar" ao abrir o modal. */
+  readonly botaoContinuarRef?: RefObject<HTMLButtonElement | null>;
   readonly className?: string;
 }
 
@@ -31,6 +63,7 @@ export function CartaoCarta({
   tituloId,
   aoContinuar,
   dentroDeDialog = false,
+  botaoContinuarRef,
   className,
 }: CartaoCartaProps) {
   const Icone = ICONE_POR_TIPO[carta.tipo];
@@ -60,14 +93,18 @@ export function CartaoCarta({
           — {fonte.autor} ({fonte.ano})
         </p>
         {dentroDeDialog ? (
-          <form method="dialog">
-            <button type="submit" value="continuar" className="botao" autoFocus>
-              Continuar
-            </button>
-          </form>
+          <button
+            ref={botaoContinuarRef}
+            type="submit"
+            value="continuar"
+            className="botao"
+            autoFocus
+          >
+            Continuar
+          </button>
         ) : (
           aoContinuar && (
-            <button type="button" className="botao" onClick={aoContinuar}>
+            <button ref={botaoContinuarRef} type="button" className="botao" onClick={aoContinuar}>
               Continuar
             </button>
           )
@@ -86,6 +123,8 @@ export interface ModalCartaProps {
 
 export function ModalCarta({ carta, aoFechar }: ModalCartaProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const botaoRef = useRef<HTMLButtonElement>(null);
+  const fechandoRef = useRef(false);
   const tituloId = useId();
 
   useEffect(() => {
@@ -93,19 +132,64 @@ export function ModalCarta({ carta, aoFechar }: ModalCartaProps) {
     if (!dialog) return;
 
     if (carta) {
+      fechandoRef.current = false;
+      dialog.removeAttribute('data-closing');
       if (!dialog.open) {
         dialog.showModal();
       }
+      // Garante foco imediato no botão "Continuar" em vez do link da fonte que vem antes no DOM.
+      botaoRef.current?.focus();
     } else if (dialog.open) {
+      dialog.removeAttribute('data-closing');
       dialog.close();
     }
   }, [carta]);
+
+  const fecharComAnimacao = useCallback(async () => {
+    const dialog = dialogRef.current;
+    if (!dialog || !dialog.open || fechandoRef.current) return;
+
+    if (!suportaSaidaTopLayer()) {
+      fechandoRef.current = true;
+      dialog.setAttribute('data-closing', '');
+      const animacoes = dialog.getAnimations({ subtree: true });
+      if (animacoes.length > 0) {
+        await Promise.race([
+          Promise.allSettled(animacoes.map((a) => a.finished)),
+          new Promise<void>((resolve) => setTimeout(resolve, 600)),
+        ]);
+      }
+      if (!dialog.hasAttribute('data-closing')) return;
+      dialog.removeAttribute('data-closing');
+      fechandoRef.current = false;
+    }
+
+    if (dialog.open) {
+      dialog.close();
+    }
+  }, []);
+
+  function aoEnviarFormulario(evento: FormEvent<HTMLFormElement>): void {
+    if (!suportaSaidaTopLayer()) {
+      evento.preventDefault();
+      void fecharComAnimacao();
+    }
+  }
+
+  function lidarComCancel(evento: React.SyntheticEvent<HTMLDialogElement>): void {
+    if (!suportaSaidaTopLayer()) {
+      evento.preventDefault();
+      void fecharComAnimacao();
+    }
+  }
 
   function lidarComClose(): void {
     const dialog = dialogRef.current;
     if (dialog) {
       dialog.returnValue = '';
+      dialog.removeAttribute('data-closing');
     }
+    fechandoRef.current = false;
     if (carta) {
       aoFechar();
     }
@@ -116,9 +200,19 @@ export function ModalCarta({ carta, aoFechar }: ModalCartaProps) {
       ref={dialogRef}
       className="modal-carta"
       aria-labelledby={tituloId}
+      onCancel={lidarComCancel}
       onClose={lidarComClose}
     >
-      {carta && <CartaoCarta carta={carta} tituloId={tituloId} dentroDeDialog />}
+      {carta && (
+        <form method="dialog" onSubmit={aoEnviarFormulario}>
+          <CartaoCarta
+            carta={carta}
+            tituloId={tituloId}
+            dentroDeDialog
+            botaoContinuarRef={botaoRef}
+          />
+        </form>
+      )}
     </dialog>
   );
 }

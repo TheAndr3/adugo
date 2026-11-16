@@ -82,7 +82,8 @@ function montarPassos(): readonly PassoComoJogar[] {
       titulo: '1. Andar pelas linhas',
       resumo:
         'A onça começa no centro e os 14 cachorros no topo. A onça joga primeiro; depois os cachorros. Na sua vez, mova uma peça para um ponto vizinho vazio seguindo qualquer linha riscada no chão.',
-      detalhe: 'Os cachorros podem andar em qualquer direção (para frente, para trás, para os lados e nas diagonais marcadas). Não é permitido passar a vez.',
+      detalhe:
+        'Os cachorros podem andar em qualquer direção (para frente, para trás, para os lados e nas diagonais marcadas). Não é permitido passar a vez.',
       quadros: [
         {
           estado: andar0,
@@ -103,7 +104,7 @@ function montarPassos(): readonly PassoComoJogar[] {
             { ponto: P(3, 1), captura: false },
           ],
           ultimaJogada: { de: P(2, 2), para: P(3, 2) },
-          legenda: 'A onça desceu para (4,3). Agora é a vez de um cachorro avançar.',
+          legenda: 'A onça desceu um ponto. Agora é a vez de um cachorro avançar.',
         },
         {
           estado: andar2,
@@ -160,7 +161,7 @@ function montarPassos(): readonly PassoComoJogar[] {
           selecionado: P(5, 2),
           destinos: [{ ponto: P(6, 2), captura: false }],
           ultimaJogada: null,
-          legenda: 'A onça está no canto da toca. Falta fechar a última saída em (7,3).',
+          legenda: 'A onça está no canto da toca. Falta fechar a última saída na base.',
         },
         {
           estado: cerco1,
@@ -208,30 +209,51 @@ function montarPassos(): readonly PassoComoJogar[] {
 
 export const PASSOS_COMO_JOGAR: readonly PassoComoJogar[] = montarPassos();
 
+function usarMenosMovimento(): boolean {
+  const [reduzido, setReduzido] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches),
+  );
+
+  useEffect(() => {
+    const consulta = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+    if (!consulta) return;
+    const atualizar = () => setReduzido(consulta.matches);
+    consulta.addEventListener('change', atualizar);
+    return () => consulta.removeEventListener('change', atualizar);
+  }, []);
+
+  return reduzido;
+}
+
 interface MiniTabuleiroPassoProps {
   readonly passo: PassoComoJogar;
   readonly animacaoPausada: boolean;
+  readonly reduzidoPorSistema: boolean;
 }
 
-function MiniTabuleiroPasso({ passo, animacaoPausada }: MiniTabuleiroPassoProps) {
+function MiniTabuleiroPasso({
+  passo,
+  animacaoPausada,
+  reduzidoPorSistema,
+}: MiniTabuleiroPassoProps) {
   const [indice, setIndice] = useState(0);
+  const [interagiu, setInteragiu] = useState(false);
   const total = passo.quadros.length;
   const quadro = passo.quadros[indice] ?? passo.quadros[0]!;
+  const autoPausado = animacaoPausada || reduzidoPorSistema || interagiu;
 
   useEffect(() => {
-    if (animacaoPausada) return;
-    const prefereMenosMovimento =
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (prefereMenosMovimento) return;
-
-    const timer = window.setInterval(() => {
+    if (autoPausado) return;
+    const timer = window.setTimeout(() => {
       setIndice((atual) => (atual + 1) % total);
-    }, 2200);
-    return () => window.clearInterval(timer);
-  }, [animacaoPausada, total]);
+    }, 2400);
+    return () => window.clearTimeout(timer);
+  }, [indice, autoPausado, total]);
 
   function avancarOuReiniciar(): void {
+    setInteragiu(true);
     setIndice((atual) => (atual + 1) % total);
   }
 
@@ -242,7 +264,7 @@ function MiniTabuleiroPasso({ passo, animacaoPausada }: MiniTabuleiroPassoProps)
         <p>{passo.resumo}</p>
         <p className="como-jogar__detalhe">{passo.detalhe}</p>
         <div className="como-jogar__controles">
-          <span className="como-jogar__etapa" aria-live="polite">
+          <span className="como-jogar__etapa" aria-live={interagiu ? 'polite' : 'off'}>
             Demonstração ({indice + 1}/{total}): {quadro.legenda}
           </span>
           <button
@@ -256,9 +278,10 @@ function MiniTabuleiroPasso({ passo, animacaoPausada }: MiniTabuleiroPassoProps)
         </div>
       </div>
 
-      <figure className="como-jogar__palco">
+      <figure className="como-jogar__palco" onClick={avancarOuReiniciar}>
         <Tabuleiro
           className="como-jogar__tabuleiro"
+          ariaLabel={`Mini tabuleiro — ${passo.titulo}, etapa ${indice + 1} de ${total}: ${quadro.legenda}`}
           onca={quadro.estado.onca}
           caes={quadro.estado.caes}
           queimados={quadro.estado.queimados}
@@ -266,7 +289,6 @@ function MiniTabuleiroPasso({ passo, animacaoPausada }: MiniTabuleiroPassoProps)
           selecionado={quadro.selecionado}
           destinos={quadro.destinos}
           ultimaJogada={quadro.ultimaJogada}
-          aoTocar={() => avancarOuReiniciar()}
         />
       </figure>
     </article>
@@ -279,13 +301,15 @@ export interface TelaComoJogarProps {
 }
 
 export function TelaComoJogar({ aoVoltar, aoIniciarPartida }: TelaComoJogarProps) {
-  const [parado, setParado] = useState(
-    () => typeof document !== 'undefined' && document.documentElement.dataset.movimento === 'parado',
-  );
+  const [parado, setParado] = useState(false);
+  const reduzidoPorSistema = usarMenosMovimento();
 
   useEffect(() => {
     if (parado) document.documentElement.dataset.movimento = 'parado';
     else delete document.documentElement.dataset.movimento;
+    return () => {
+      delete document.documentElement.dataset.movimento;
+    };
   }, [parado]);
 
   return (
@@ -317,7 +341,12 @@ export function TelaComoJogar({ aoVoltar, aoIniciarPartida }: TelaComoJogarProps
 
       <div className="como-jogar__lista">
         {PASSOS_COMO_JOGAR.map((passo) => (
-          <MiniTabuleiroPasso key={passo.id} passo={passo} animacaoPausada={parado} />
+          <MiniTabuleiroPasso
+            key={passo.id}
+            passo={passo}
+            animacaoPausada={parado}
+            reduzidoPorSistema={reduzidoPorSistema}
+          />
         ))}
       </div>
 

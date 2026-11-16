@@ -21,7 +21,8 @@ export function TelaInicio({
     <main className="tela-inicio">
       <header className="tela-inicio__cabecalho">
         <h1>
-          <Logotipo className="tela-inicio__logo" role="img" aria-label="Adugo" />
+          <span className="visually-hidden">Adugo: </span>
+          <Logotipo className="tela-inicio__logo" aria-hidden="true" />
           <span className="tela-inicio__subtitulo">Território da Onça</span>
         </h1>
       </header>

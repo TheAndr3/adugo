@@ -31,6 +31,12 @@ const ESPERADO = {
 const ICONES = ['pata-onca', 'pata-cachorro', 'chama', 'broto', 'regras', 'reiniciar', 'trocar', 'voltar', 'fechar', 'sobre'];
 for (const nome of ICONES) ESPERADO[`src/arte/icones/${nome}.svg`] = ['0 0 24 24', 1];
 
+// Partes que o CSS anima: a classe precisa existir no arquivo (src/arte/arte.css).
+const CLASSES = {
+  'src/arte/fogo/foco.svg': ['foco-base', 'foco-brilho', 'foco-chama', 'foco-brasa-1', 'foco-brasa-2'],
+  'src/arte/fogo/fumaca.svg': ['fumaca-1', 'fumaca-2', 'fumaca-3'],
+};
+
 function listarSvg(pasta) {
   return readdirSync(raiz + pasta).flatMap((nome) => {
     const caminho = `${pasta}/${nome}`;
@@ -81,10 +87,13 @@ for (const caminho of encontrados) {
     if (!PALETA.has(cor.toUpperCase())) erro(`cor ${cor} não é da paleta`);
   }
   if (caminho.includes('/icones/') && !svg.includes('currentColor')) erro('ícone deveria usar currentColor');
+  for (const classe of CLASSES[caminho] ?? []) {
+    if (!svg.includes(`class="${classe}"`)) erro(`falta a parte com class="${classe}"`);
+  }
 }
 
 if (problemas.length > 0) {
   console.error(`${problemas.length} problema(s):\n` + problemas.map((p) => `  ${p}`).join('\n'));
   process.exit(1);
 }
-console.log(`${encontrados.length} SVGs conferidos: viewBox, peso, ids, cores da paleta e itens proibidos. Tudo certo.`);
+console.log(`${encontrados.length} SVGs conferidos: viewBox, peso, ids, classes animadas, cores da paleta e itens proibidos. Tudo certo.`);

@@ -102,6 +102,7 @@ export function Prancha() {
     <main className="prancha">
       <header className="prancha__topo">
         <Logotipo className="prancha__logo" role="img" aria-label="Adugo" />
+        <h1 className="visually-hidden">Prancha de arte do Adugo</h1>
         <p>Prancha de arte: tudo que aparece no jogo, sobre o chão, no tamanho de celular e no dobro.</p>
         <button type="button" className="botao botao--secundario" aria-pressed={parado} onClick={() => setParado(!parado)}>
           Pausar animações

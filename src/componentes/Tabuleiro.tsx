@@ -25,6 +25,7 @@ export interface TabuleiroProps {
   readonly ultimaJogada?: { readonly de: Ponto; readonly para: Ponto } | null;
   /** Se presente, os pontos viram botões (toque, clique e teclado). */
   readonly aoTocar?: (ponto: Ponto) => void;
+  readonly ariaLabel?: string;
   readonly className?: string;
 }
 
@@ -61,6 +62,7 @@ export function Tabuleiro({
   destinos = [],
   ultimaJogada = null,
   aoTocar,
+  ariaLabel = 'Tabuleiro do Adugo',
   className,
 }: TabuleiroProps) {
   const queimado = new Set(queimados);
@@ -82,8 +84,17 @@ export function Tabuleiro({
     return `Fileira ${r + 1}, coluna ${c + 1}: ${oQue}${marcada}${extra}`;
   }
 
-  function aoTeclar(evento: KeyboardEvent, p: Ponto): void {
-    if (evento.key !== 'Enter' && evento.key !== ' ') return;
+  function aoBaixarTecla(evento: KeyboardEvent, p: Ponto): void {
+    if (evento.key === 'Enter') {
+      evento.preventDefault();
+      aoTocar?.(p);
+    } else if (evento.key === ' ') {
+      evento.preventDefault();
+    }
+  }
+
+  function aoSoltarTecla(evento: KeyboardEvent, p: Ponto): void {
+    if (evento.key !== ' ') return;
     evento.preventDefault();
     aoTocar?.(p);
   }
@@ -96,7 +107,7 @@ export function Tabuleiro({
       className={['tabuleiro', className].filter(Boolean).join(' ')}
       viewBox={`0 0 ${LARGURA} ${ALTURA}`}
       role={aoTocar ? 'group' : 'img'}
-      aria-label="Tabuleiro do Adugo"
+      aria-label={ariaLabel}
     >
       <g aria-hidden="true">
         <polygon className="tabuleiro__toca" points="260,460 60,660 460,660" />
@@ -187,7 +198,8 @@ export function Tabuleiro({
               tabIndex={0}
               aria-label={rotulo(p)}
               onClick={() => aoTocar(p)}
-              onKeyDown={(evento) => aoTeclar(evento, p)}
+              onKeyDown={(evento) => aoBaixarTecla(evento, p)}
+              onKeyUp={(evento) => aoSoltarTecla(evento, p)}
             />
           );
         })}

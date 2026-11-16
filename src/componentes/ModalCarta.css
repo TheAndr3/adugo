@@ -30,20 +30,20 @@
   transition-behavior: allow-discrete;
 }
 
-.modal-carta[open] {
+.modal-carta[open]:where(:not([data-closing])) {
   opacity: 1;
 
   @starting-style {
     opacity: 0;
   }
-}
 
-.modal-carta[open]::backdrop {
-  /* carvao-900 (#231F1D) a 55% (docs/ESTETICA.md, seção 7) */
-  background-color: rgb(35 31 29 / 0.55);
+  &::backdrop {
+    /* carvao-900 (#231F1D) a 55% (docs/ESTETICA.md, seção 7) */
+    background-color: rgb(35 31 29 / 0.55);
 
-  @starting-style {
-    background-color: rgb(35 31 29 / 0);
+    @starting-style {
+      background-color: rgb(35 31 29 / 0);
+    }
   }
 }
 
@@ -52,7 +52,7 @@
     transform: translateY(24px) rotate(-2deg);
   }
 
-  :root:not([data-movimento='parado']) .modal-carta[open] {
+  :root:not([data-movimento='parado']) .modal-carta[open]:where(:not([data-closing])) {
     transform: translateY(0) rotate(0deg);
 
     @starting-style {

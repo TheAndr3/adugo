@@ -89,11 +89,11 @@ O tabuleiro não é um arquivo de imagem. O componente `Tabuleiro` desenha em SV
 
 **Sulcos (as linhas).** Cada linha é desenhada como três traços sobrepostos, com pontas arredondadas:
 
-1. Fundo do sulco: `terra-700`, largura 7.
-2. Sombra interna: `terra-900`, largura 3, opacidade 0,35, deslocada 1 para cima e para a esquerda.
-3. Borda de terra levantada: `terra-100`, largura 2, opacidade 0,6, deslocada 3 para baixo e para a direita.
+1. Borda de terra levantada (por baixo): `terra-100`, largura 8, opacidade 0,7, deslocada 1,8 para baixo e para a direita. Só a parte que sobra fora do sulco aparece, como um fio claro do lado iluminado.
+2. Fundo do sulco: `terra-700`, largura 7.
+3. Sombra interna (por cima): `terra-900`, largura 3, opacidade 0,35, deslocada 1 para cima e para a esquerda.
 
-O traço não é reto. Cada trecho entre dois pontos ganha um ponto de controle no meio, deslocado de 1,5 a 3 unidades para o lado, com sorteio de semente fixa (o tabuleiro é idêntico em toda partida). O resultado deve parecer riscado à mão por alguém cuidadoso, e não tremido.
+O traço não é reto. Cada uma das 18 linhas é um risco contínuo: passa por todos os seus pontos e, no meio de cada trecho, desvia de 1,5 a 3 unidades para o lado. O risco sobra de 4 a 9 unidades além do primeiro e do último ponto, como o graveto que passa um pouco do lugar. Tudo com sorteio de semente fixa (o tabuleiro é idêntico em toda partida). O cálculo fica em `src/componentes/sulcos.ts`, que entrega os 66 trechos separados para o tabuleiro poder apagar os que chegam a um ponto queimado. O resultado deve parecer riscado à mão por alguém cuidadoso, e não tremido.
 
 **Pontos.** Em cada cruzamento, uma covinha: círculo de raio 10 em `terra-700` com opacidade 0,55 e um arco claro `terra-100` na borda inferior direita.
 
@@ -150,7 +150,7 @@ Os PNG e o JPEG (`og.jpg`, ~203 KB; em PNG a textura granulada do chão passava 
 - Forma: mancha arredondada irregular de 6 a 8 curvas, ocupando cerca de 54 × 50 dentro do `viewBox`. Nenhum é círculo perfeito.
 - Preenchimento: degradê radial com centro em 35% / 30%, de `pedra-300` para `pedra-500`.
 - Contorno: `pedra-800`, largura 2.
-- Detalhe: 3 a 5 pintinhas `pedra-800` com opacidade 0,3 e uma faixa de brilho curta `pedra-300` no alto à esquerda.
+- Detalhe: 3 a 5 pintinhas `pedra-800` com opacidade 0,3 e uma faixa de brilho curta `papel-100` com opacidade 0,5 no alto à esquerda (em `pedra-300` ela sumia sobre o degradê). O degradê termina em `pedra-800` na borda, para a pedra ter volume.
 - No tabuleiro, cada cachorro recebe uma variante e uma leve variação de tamanho (`0,95` a `1,04`) fixas pelo seu número, **sem rotação** (girar a pedra girava também o brilho e quebrava a luz vinda de cima à esquerda).
 
 **Onça (`onca.svg`).** Uma pedra maior, pintada.
@@ -164,7 +164,7 @@ Os PNG e o JPEG (`og.jpg`, ~203 KB; em PNG a textura granulada do chão passava 
 - Base (`class="foco-base"`): mancha chamuscada de borda irregular, raio cerca de 34, `carvao-700` com opacidade 0,85.
 - Brilho (`class="foco-brilho"`): degradê radial de `brasa-300` (centro, opacidade 0,7) a transparente, raio 30.
 - Chama (`class="foco-chama"`): três línguas sobrepostas, de fora para dentro `fogo-700`, `fogo-500`, `brasa-300`. Altura 44, ponta levemente inclinada para a direita. Contornos arredondados, de desenho de livro infantil.
-- Contador: duas brasinhas em diagonal, de um lado só (`class="foco-brasa-1"` e `class="foco-brasa-2"`), círculos em `brasa-300` com contorno `carvao-900` de 1,5 (lado a lado embaixo da chama pareciam olhos). O aviso se lê primeiro pelo tamanho da chama: menor (`scale: 0.82`) com 2 rodadas e duas brasinhas; maior (`scale: 1.12`) com 1 rodada e uma brasinha.
+- Contador: duas brasinhas em diagonal, de um lado só (`class="foco-brasa-1"` e `class="foco-brasa-2"`), manchinhas irregulares de raio cerca de 4,5 em `brasa-300` com contorno `carvao-900` de 1,5 (lado a lado embaixo da chama pareciam olhos). O aviso se lê primeiro pelo tamanho da chama: menor (`scale: 0.82`) com 2 rodadas e duas brasinhas; maior (`scale: 1.12`) com 1 rodada e uma brasinha.
 - Leitura sem cor: forma e tamanho da chama mais número de brasinhas.
 
 **Ponto queimado (`queimado.svg`).** O que sobra.
@@ -191,11 +191,11 @@ Os PNG e o JPEG (`og.jpg`, ~203 KB; em PNG a textura granulada do chão passava 
 - Letras são caminhos (`<path>`), nunca `<text>`.
 
 **Capa (`capa.svg`).** Ilustração da tela inicial, montada por script (`npm run arte:capa`).
-- Composição com fundo transparente (apoia-se sobre o chão da própria página, sem textura de chão ou degradê em traço embutidos, para renderizar instantaneamente no navegador): um canto do tabuleiro entrando pela direita; a pedra da onça em primeiro plano à esquerda; cinco cachorros ao fundo; um foco de calor pequeno no canto superior direito, com um fio de fumaça.
+- Composição com fundo transparente (apoia-se sobre o chão da própria página, sem textura de chão ou degradê em traço embutidos, para renderizar instantaneamente no navegador): um canto do tabuleiro entrando pela direita; a pedra da onça em primeiro plano à esquerda; cinco cachorros ao fundo; um foco de calor à direita, a meia altura, com um fio de fumaça.
 - Usa os mesmos assets, para a capa e o jogo terem exatamente a mesma cara.
-- Deixa o terço superior esquerdo livre para o logotipo e o terço inferior livre para os botões.
+- Deixa o terço superior esquerdo livre para o logotipo. No terço inferior só há sulcos e capim: quem mostra a capa esmaece essa parte com uma máscara em CSS (`mask-image: linear-gradient(to bottom, #000 62%, transparent 96%)`, como a prancha faz) e põe os botões por cima.
 
-**Ícones (`icones/`).** Traço de 2,25, pontas e cantos arredondados, cor `currentColor`, desenho levemente irregular (nenhum círculo perfeito).
+**Ícones (`icones/`).** Traço de 2,25, pontas e cantos arredondados, cor `currentColor`, desenho levemente irregular (nenhum círculo perfeito). As duas pegadas são a exceção: são preenchidas, porque em traço não se liam em 24 px.
 
 | Arquivo | Desenho | Onde |
 | --- | --- | --- |
@@ -261,7 +261,7 @@ Os PNG e o JPEG (`og.jpg`, ~203 KB; em PNG a textura granulada do chão passava 
 | Ponto queima | Chama cresce até 160%, clarão `brasa-300`, `queimado` surge por baixo, sulcos vizinhos viram tracejados | 700 ms |
 | Território destruído | Tela escurece para `carvao-900` a 60% de fora para dentro | 900 ms |
 
-As animações contínuas da chama só são declaradas dentro de `@media (prefers-reduced-motion: no-preference)` e param quando `<html>` tem `data-movimento="parado"` (controlado pelo botão de pausa na prancha e na tela da partida). Com `prefers-reduced-motion: reduce`, transições viram troca de opacidade de 150 ms e a chama fica parada.
+As animações contínuas da chama só são declaradas dentro de `@media (prefers-reduced-motion: no-preference)` e param quando `<html>` tem `data-movimento="parado"` (hoje só a prancha tem o botão de pausa; a tela da partida precisa de um, porque a chama fica acesa por mais de 5 segundos). Com `prefers-reduced-motion: reduce`, transições viram troca de opacidade de 150 ms e a chama fica parada.
 
 ## 10. Telas
 
