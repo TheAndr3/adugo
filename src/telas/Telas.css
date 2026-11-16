@@ -207,3 +207,73 @@
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* ---------- Tela Como se joga ---------- */
+
+.como-jogar__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.como-jogar__passo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: 20px 22px;
+}
+
+@media (min-width: 720px) {
+  .como-jogar__passo {
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+  }
+}
+
+.como-jogar__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-inline-size: 0;
+}
+
+.como-jogar__detalhe {
+  color: var(--terra-700);
+  font-weight: 700;
+}
+
+.como-jogar__controles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-block-start: 4px;
+  padding: 12px 14px;
+  border: 2px solid var(--terra-700);
+  border-radius: 14px;
+  background: var(--papel-300);
+}
+
+.como-jogar__etapa {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.como-jogar__botao-passo {
+  min-height: 48px;
+  font-size: 1rem;
+}
+
+.como-jogar__palco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.como-jogar__tabuleiro {
+  inline-size: min(100%, 270px);
+  block-size: auto;
+}
+

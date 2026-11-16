@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useState, useSyncExternalStore } from 'react
 import { IconeVoltar } from './arte';
 import { CARTAS } from './conteudo';
 import { criarEstado, ponto as P, type Estado, type Modo } from './motor';
+import { TelaComoJogar } from './telas/TelaComoJogar';
 import { TelaFim } from './telas/TelaFim';
 import { TelaInicio } from './telas/TelaInicio';
 import { TelaSobre } from './telas/TelaSobre';
@@ -72,18 +73,13 @@ export function App() {
 
   if (hash === '#como-jogar') {
     return (
-      <main className="tela">
-        <header className="tela__topo">
-          <h1>Como se joga</h1>
-          <button type="button" className="botao botao--secundario" onClick={() => navegarHash('')}>
-            <IconeVoltar aria-hidden="true" />
-            Voltar ao início
-          </button>
-        </header>
-        <section className="painel tela__secao">
-          <p>A tela interativa com os 4 mini tabuleiros entra na Issue #7.</p>
-        </section>
-      </main>
+      <TelaComoJogar
+        aoVoltar={() => navegarHash('')}
+        aoIniciarPartida={(modo) => {
+          setModoPartida(modo);
+          navegarHash('#partida');
+        }}
+      />
     );
   }
 
