@@ -1,0 +1,209 @@
+/* Estilos das telas de Início, Fim de Partida e Sobre (docs/ESTETICA.md, seções 8 e 10). */
+
+.tela {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  inline-size: min(100%, 960px);
+  margin-inline: auto;
+  padding-block: 24px 56px;
+  padding-inline: 16px;
+}
+
+/* ---------- Tela de Início ---------- */
+
+.tela-inicio {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: center;
+  min-block-size: 100dvh;
+  inline-size: min(100%, 1040px);
+  margin-inline: auto;
+  padding-block: 20px 32px;
+  padding-inline: 16px;
+}
+
+.tela-inicio__cabecalho {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  z-index: 2;
+}
+
+.tela-inicio__logo {
+  display: block;
+  inline-size: min(100%, 400px);
+  block-size: auto;
+}
+
+.tela-inicio__subtitulo {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.35rem, 3.8vmin, 2.25rem);
+  font-weight: 600;
+  color: var(--terra-900);
+  padding-inline-start: 4px;
+}
+
+.tela-inicio__palco {
+  position: relative;
+   inline-size: 100%;
+  max-inline-size: 760px;
+  margin-inline: auto;
+}
+
+.tela-inicio__capa {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 4 / 3;
+  mask-image: linear-gradient(to bottom, #000 66%, transparent 98%);
+}
+
+.tela-inicio__acoes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px 16px;
+  inline-size: 100%;
+  z-index: 2;
+}
+
+@media (min-width: 800px) {
+  .tela-inicio {
+    grid-template-rows: auto 1fr auto;
+    padding-block: 28px 36px;
+    padding-inline: 32px;
+  }
+
+  .tela-inicio__cabecalho {
+    margin-block-end: -64px;
+  }
+
+  .tela-inicio__palco {
+    margin-block: -24px;
+  }
+}
+
+/* ---------- Cabeçalhos e painéis internos ---------- */
+
+.tela__topo {
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: balance;
+  align-items: safe center;
+  justify-content: space-between;
+  gap: 12px 16px;
+}
+
+.tela__secao {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 22px;
+}
+
+.tela__secao h2 {
+  font-size: clamp(1.35rem, 3.2vmin, 1.85rem);
+}
+
+/* ---------- Tela de Fim ---------- */
+
+.fim__cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fim__subtitulo {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--terra-700);
+}
+
+.fim__placar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fim__item-placar {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 2px solid var(--terra-700);
+  border-radius: 16px;
+  background: var(--papel-100);
+  box-shadow: var(--sombra-papel);
+}
+
+.fim__item-valor {
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.75rem, 4vmin, 2.4rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--terra-900);
+}
+
+.fim__item-rotulo {
+  font-size: var(--tamanho-rotulo);
+  font-weight: 700;
+}
+
+.fim__perguntas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding-inline-start: 1.4em;
+  font-size: clamp(1.125rem, 2.2vmin, 1.35rem);
+  font-weight: 700;
+}
+
+.fim__cartas-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fim__cartas-grade .carta {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.fim__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: balance;
+  gap: 12px 16px;
+}
+
+/* ---------- Tela Sobre ---------- */
+
+.sobre__grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.sobre__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding-inline-start: 1.25em;
+}
+
+.sobre__link {
+  color: var(--terra-900);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
