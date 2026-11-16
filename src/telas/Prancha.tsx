@@ -25,7 +25,9 @@ import {
   Queimado,
 } from '../arte';
 import capaUrl from '../arte/capa/capa.svg';
+import { CartaoCarta, ModalCarta } from '../componentes/ModalCarta';
 import { Tabuleiro } from '../componentes/Tabuleiro';
+import { CARTAS, type Carta } from '../conteudo';
 import { ponto as P } from '../motor';
 import './Prancha.css';
 
@@ -82,6 +84,11 @@ const JOGO = {
 export function Prancha() {
   const [parado, setParado] = useState(false);
   const [tocado, setTocado] = useState<string | null>(null);
+  const [cartaAberta, setCartaAberta] = useState<Carta | null>(null);
+
+  const exemploQueimada = CARTAS.find((c) => c.tipo === 'queimada')!;
+  const exemploCuidado = CARTAS.find((c) => c.tipo === 'cuidado')!;
+  const exemploOnca = CARTAS.find((c) => c.tipo === 'onca')!;
 
   useEffect(() => {
     if (parado) document.documentElement.dataset.movimento = 'parado';
@@ -201,42 +208,16 @@ export function Prancha() {
             <IconeRegras aria-hidden="true" />
             Como se joga
           </button>
+          <button type="button" className="botao botao--secundario" onClick={() => setCartaAberta(exemploQueimada)}>
+            Abrir modal de carta
+          </button>
         </div>
         <div className="prancha__fila prancha__fila--cartas">
-          <article className="carta carta--queimada">
-            <header className="carta__faixa">
-              <IconeChama aria-hidden="true" />
-              Queimada
-            </header>
-            <div className="carta__corpo">
-              <p className="carta__texto">Texto de exemplo, só para ver a carta. O conteúdo de verdade entra com as fontes conferidas.</p>
-              <p className="carta__fonte">Fonte: exemplo de rodapé</p>
-              <button type="button" className="botao">
-                Continuar
-              </button>
-            </div>
-          </article>
-          <article className="carta carta--cuidado">
-            <header className="carta__faixa">
-              <IconeBroto aria-hidden="true" />
-              Cuidado
-            </header>
-            <div className="carta__corpo">
-              <p className="carta__texto">Texto de exemplo, só para ver a carta.</p>
-              <p className="carta__fonte">Fonte: exemplo de rodapé</p>
-            </div>
-          </article>
-          <article className="carta carta--onca">
-            <header className="carta__faixa">
-              <IconePataOnca aria-hidden="true" />
-              Onça e Bororo
-            </header>
-            <div className="carta__corpo">
-              <p className="carta__texto">Texto de exemplo, só para ver a carta.</p>
-              <p className="carta__fonte">Fonte: exemplo de rodapé</p>
-            </div>
-          </article>
+          <CartaoCarta carta={exemploQueimada} aoContinuar={() => setCartaAberta(exemploQueimada)} />
+          <CartaoCarta carta={exemploCuidado} />
+          <CartaoCarta carta={exemploOnca} />
         </div>
+        <ModalCarta carta={cartaAberta} aoFechar={() => setCartaAberta(null)} />
       </section>
 
       <section>

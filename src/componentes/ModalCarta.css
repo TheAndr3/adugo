@@ -1,0 +1,75 @@
+/* Modal de carta educativa sobre o tabuleiro (docs/ESTETICA.md, seção 7).
+   Usa <dialog> nativo aberto com showModal() na top layer. */
+
+.modal-carta {
+  padding: 0;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--terra-900);
+  max-width: min(92vw, 560px);
+  max-height: 92dvh;
+  opacity: 0;
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+.modal-carta:modal {
+  overscroll-behavior: contain;
+}
+
+.modal-carta::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgb(35 31 29 / 0);
+  transition-property: background-color, display, overlay;
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+.modal-carta[open] {
+  opacity: 1;
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.modal-carta[open]::backdrop {
+  /* carvao-900 (#231F1D) a 55% (docs/ESTETICA.md, seção 7) */
+  background-color: rgb(35 31 29 / 0.55);
+
+  @starting-style {
+    background-color: rgb(35 31 29 / 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-movimento='parado']) .modal-carta {
+    transform: translateY(24px) rotate(-2deg);
+  }
+
+  :root:not([data-movimento='parado']) .modal-carta[open] {
+    transform: translateY(0) rotate(0deg);
+
+    @starting-style {
+      transform: translateY(24px) rotate(-2deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-carta,
+  .modal-carta::backdrop {
+    transition-duration: 150ms;
+  }
+}
+
+.carta__fonte-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

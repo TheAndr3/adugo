@@ -1,0 +1,200 @@
+[
+  {
+    "id": "queimada-01",
+    "tipo": "queimada",
+    "texto": "Mais de 60% da superfície do Pantanal já foi atingida pelo fogo ao menos uma vez desde 1985. Proporcionalmente, é o bioma brasileiro que mais acumula área queimada na história recente.",
+    "fonte": {
+      "titulo": "Relatório Anual do Fogo no Brasil",
+      "autor": "MapBiomas Fogo",
+      "ano": 2025,
+      "url": "https://plataforma.brasil.mapbiomas.org/fogo"
+    }
+  },
+  {
+    "id": "queimada-02",
+    "tipo": "queimada",
+    "texto": "Em 2020, incêndios consumiram cerca de 30% do Pantanal (4,5 milhões de hectares). Estudos estimam que ao menos 17 milhões de animais vertebrados morreram pela fumaça, pelas chamas ou pela fome.",
+    "fonte": {
+      "titulo": "Em 2020, grandes incêndios queimaram 30% da área do Pantanal",
+      "autor": "Agência FAPESP / INPE",
+      "ano": 2023,
+      "url": "https://agencia.fapesp.br/em-2020-grandes-incendios-queimaram-30-da-area-do-pantanal/44693"
+    }
+  },
+  {
+    "id": "queimada-03",
+    "tipo": "queimada",
+    "texto": "O Cerrado concentra a maior área absoluta queimada por ano no Brasil. Como suas nascentes alimentam a bacia do rio Paraguai, a seca e o fogo no planalto agravam os incêndios no Pantanal.",
+    "fonte": {
+      "titulo": "Mapeamento das Cicatrizes de Fogo no Brasil",
+      "autor": "MapBiomas",
+      "ano": 2024,
+      "url": "https://brasil.mapbiomas.org/"
+    }
+  },
+  {
+    "id": "queimada-04",
+    "tipo": "queimada",
+    "texto": "Em 2024, a seca severa levou o fogo a consumir mais de 2,6 milhões de hectares no Pantanal. Sem cheias para alagar os campos, a vegetação seca vira combustível contínuo para o avanço da chama.",
+    "fonte": {
+      "titulo": "Pantanal passa dos 2 milhões de hectares consumidos pelos incêndios",
+      "autor": "SOS Pantanal / LASA-UFRJ",
+      "ano": 2024,
+      "url": "https://sospantanal.org.br/pantanal-passa-dos-2-milhoes-de-hectares-consumidos-pelos-incendios/"
+    }
+  },
+  {
+    "id": "queimada-05",
+    "tipo": "queimada",
+    "texto": "No Pantanal e no Cerrado, a imensa maioria dos grandes incêndios na estação seca começa por ação humana, fugindo do controle quando o calor extremo, o vento forte e a baixa umidade se somam.",
+    "fonte": {
+      "titulo": "Portal do Programa Queimadas — Monitoramento por Satélites",
+      "autor": "INPE",
+      "ano": 2024,
+      "url": "https://terrabrasilis.dpi.inpe.br/queimadas/portal/"
+    }
+  },
+  {
+    "id": "queimada-06",
+    "tipo": "queimada",
+    "texto": "Quando o fogo destrói refúgios e corixos, nem predadores nem presas têm para onde fugir. Num território reduzido a cinzas, a disputa entre caçador e caça perde o sentido: todos perdem o chão.",
+    "fonte": {
+      "titulo": "Sistema ALARMES — Alerta de Área Queimada no Pantanal",
+      "autor": "LASA / UFRJ",
+      "ano": 2024,
+      "url": "https://lasa.ufrj.br/"
+    }
+  },
+  {
+    "id": "cuidado-01",
+    "tipo": "cuidado",
+    "texto": "Apagar um foco cedo impede que ele vire frente de incêndio. O monitoramento por satélites do INPE e o alerta rápido permitem que brigadistas alcancem a fumaça antes que o vento espalhe o fogo.",
+    "fonte": {
+      "titulo": "Programa Queimadas — Monitoramento de Focos Ativos",
+      "autor": "INPE",
+      "ano": 2024,
+      "url": "https://terrabrasilis.dpi.inpe.br/queimadas/portal/"
+    }
+  },
+  {
+    "id": "cuidado-02",
+    "tipo": "cuidado",
+    "texto": "As brigadas federais indígenas do Prevfogo/IBAMA unem conhecimento tradicional do território e técnicas de combate para proteger terras indígenas e unidades de conservação no Cerrado e no Pantanal.",
+    "fonte": {
+      "titulo": "Manejo Integrado do Fogo e Brigadas Federais",
+      "autor": "IBAMA / Prevfogo",
+      "ano": 2024,
+      "url": "https://www.gov.br/ibama/pt-br/assuntos/fiscalizacao-e-protecao-ambiental/manejo-integrado-do-fogo"
+    }
+  },
+  {
+    "id": "cuidado-03",
+    "tipo": "cuidado",
+    "texto": "A Lei nº 14.944/2024 criou a Política Nacional de Manejo Integrado do Fogo, reconhecendo o uso tradicional e adaptativo do fogo por povos indígenas e comunidades tradicionais para prevenir incêndios.",
+    "fonte": {
+      "titulo": "Lei nº 14.944 — Política Nacional de Manejo Integrado do Fogo",
+      "autor": "Câmara dos Deputados",
+      "ano": 2024,
+      "url": "https://www2.camara.leg.br/legin/fed/lei/2024/lei-14944-31-julho-2024-796016-publicacaooriginal-172511-pl.html"
+    }
+  },
+  {
+    "id": "cuidado-04",
+    "tipo": "cuidado",
+    "texto": "No Manejo Integrado do Fogo, queimas prescritas e controladas no início da estação seca reduzem o capim seco acumulado, criando aceiros naturais que barram megaincêndios nos meses mais quentes.",
+    "fonte": {
+      "titulo": "Manejo Integrado do Fogo",
+      "autor": "IBAMA",
+      "ano": 2024,
+      "url": "https://www.gov.br/ibama/pt-br/assuntos/fiscalizacao-e-protecao-ambiental/manejo-integrado-do-fogo"
+    }
+  },
+  {
+    "id": "cuidado-05",
+    "tipo": "cuidado",
+    "texto": "Quando o fogo é contido a tempo, o solo não esteriliza e as raízes profundas do Cerrado e dos campos pantaneiros rebrotam logo nas primeiras chuvas, devolvendo abrigo e alimento à fauna.",
+    "fonte": {
+      "titulo": "Pesquisas sobre Ecologia do Fogo e Recuperação no Pantanal",
+      "autor": "Embrapa Pantanal",
+      "ano": 2024,
+      "url": "https://www.embrapa.br/web/pantanal"
+    }
+  },
+  {
+    "id": "cuidado-06",
+    "tipo": "cuidado",
+    "texto": "Cuidar do território exige interromper a disputa imediata para proteger o bem comum. Na vida real como no tabuleiro, quem prioriza apenas cercar o adversário arrisca perder a própria casa.",
+    "fonte": {
+      "titulo": "Prevenção e Combate a Incêndios no Pantanal",
+      "autor": "Instituto SOS Pantanal",
+      "ano": 2024,
+      "url": "https://www.sospantanal.org.br/"
+    }
+  },
+  {
+    "id": "onca-01",
+    "tipo": "onca",
+    "texto": "Na língua do povo Bororo (que se autodenomina Boe), 'adugo' significa onça-pintada. O jogo é tradicionalmente riscado na terra ou areia do pátio com gravetos e jogado com pedras ou sementes.",
+    "fonte": {
+      "titulo": "Povos Indígenas no Brasil — Povo Boe (Bororo)",
+      "autor": "Instituto Socioambiental (ISA)",
+      "ano": 2023,
+      "url": "https://pib.socioambiental.org/pt/Povo:Boe_(Bororo)"
+    }
+  },
+  {
+    "id": "onca-02",
+    "tipo": "onca",
+    "texto": "O povo Boe (Bororo) habita tradicionalmente o Mato Grosso, entre o Cerrado e o Pantanal. Suas aldeias tradicionais são circulares, organizadas em duas metades exogâmicas em torno do pátio central.",
+    "fonte": {
+      "titulo": "Povos Indígenas no Brasil — Povo Boe (Bororo)",
+      "autor": "Instituto Socioambiental (ISA)",
+      "ano": 2023,
+      "url": "https://pib.socioambiental.org/pt/Povo:Boe_(Bororo)"
+    }
+  },
+  {
+    "id": "onca-03",
+    "tipo": "onca",
+    "texto": "No Adugo, uma única onça enfrenta 14 cachorros em um tabuleiro assimétrico: ela vence pela força e agilidade dos pulos; os cachorros só vencem pela cooperação coletiva, fechando cada saída sem brecha.",
+    "fonte": {
+      "titulo": "Jogo da Onça (Adugo)",
+      "autor": "Wikipédia — A enciclopédia livre",
+      "ano": 2024,
+      "url": "https://pt.wikipedia.org/wiki/Jogo_da_on%C3%A7a"
+    }
+  },
+  {
+    "id": "onca-04",
+    "tipo": "onca",
+    "texto": "Para a cosmovisão Boe (Bororo), a onça-pintada (adugo) ocupa lugar central nos mitos, cantos e rituais funerários, simbolizando força vital e a relação profunda entre a aldeia e os seres da mata.",
+    "fonte": {
+      "titulo": "Espaço e sociedade entre os Bororo",
+      "autor": "Revista de Antropologia / SciELO",
+      "ano": 2019,
+      "url": "https://www.scielo.br/j/ra/a/3y56QfgP5rp5rrzjCQ4ZH7p/?lang=pt"
+    }
+  },
+  {
+    "id": "onca-05",
+    "tipo": "onca",
+    "texto": "A onça-pintada (Panthera onca) é o maior felino das Américas e predadora de topo de cadeia. No Pantanal vive uma de suas maiores populações, essencial para manter o equilíbrio de todo o bioma.",
+    "fonte": {
+      "titulo": "Conservação da Onça-Pintada (Panthera onca)",
+      "autor": "WWF-Brasil",
+      "ano": 2024,
+      "url": "https://www.wwf.org.br/nosso_trabalho/onca_pintada/"
+    }
+  },
+  {
+    "id": "onca-06",
+    "tipo": "onca",
+    "texto": "Classificada como espécie vulnerável no Brasil pelo ICMBio, a onça-pintada sofre com a perda de habitat e com os grandes incêndios, que reduzem suas presas e fragmentam os corredores ecológicos.",
+    "fonte": {
+      "titulo": "Centro Nacional de Pesquisa e Conservação de Mamíferos Carnívoros (CENAP)",
+      "autor": "ICMBio",
+      "ano": 2024,
+      "url": "https://www.gov.br/icmbio/pt-br/assuntos/centros-de-pesquisa/mamiferos-carnivoros"
+    }
+  }
+]
