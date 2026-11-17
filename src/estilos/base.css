@@ -72,6 +72,13 @@ p {
   white-space: nowrap !important;
 }
 
+/* Entrada curta por opacidade, usada também quando o movimento está reduzido. */
+@keyframes aparece {
+  from {
+    opacity: 0;
+  }
+}
+
 /* ---------- Botões ---------- */
 
 .botao {

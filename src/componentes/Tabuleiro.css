@@ -167,3 +167,217 @@
   stroke-dasharray: 2 6;
   stroke-linecap: round;
 }
+
+/* ---------- O que acontece numa jogada (docs/ESTETICA.md, seção 9) ----------
+   Sem movimento (preferência do sistema ou data-movimento="parado"), cada efeito vira uma
+   troca de opacidade curta. O movimento completo só entra no bloco @media lá embaixo. */
+
+@keyframes peca-passo {
+  50% {
+    scale: 1.07;
+  }
+}
+
+@keyframes peca-pulo {
+  50% {
+    scale: 1.15;
+  }
+}
+
+@keyframes foco-nasce {
+  from {
+    opacity: 0;
+    scale: 0.4;
+  }
+}
+
+@keyframes captura-some {
+  to {
+    opacity: 0;
+    scale: 0.3;
+  }
+}
+
+@keyframes po-espalha {
+  from {
+    opacity: 0.9;
+    scale: 0.6;
+  }
+  to {
+    opacity: 0;
+    scale: 1.3;
+    translate: var(--po-x) var(--po-y);
+  }
+}
+
+@keyframes broto-calmo {
+  0% {
+    opacity: 0;
+  }
+  15%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes broto-brota {
+  0% {
+    opacity: 0;
+    scale: 0.4;
+  }
+  15% {
+    opacity: 1;
+    scale: 1.12;
+  }
+  25% {
+    scale: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes queima-chama {
+  0%,
+  25% {
+    opacity: 1;
+    scale: 1;
+  }
+  70% {
+    opacity: 1;
+    scale: 1.6;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.7;
+  }
+}
+
+@keyframes queima-clarao {
+  0%,
+  30% {
+    opacity: 0;
+    scale: 0.5;
+  }
+  60% {
+    opacity: 0.75;
+    scale: 1.1;
+  }
+  100% {
+    opacity: 0;
+    scale: 1.4;
+  }
+}
+
+.efeito {
+  pointer-events: none;
+}
+
+.foco__entrada,
+.efeito-captura__pedra,
+.efeito-captura__po,
+.efeito-apagado__broto,
+.efeito-queima__chama,
+.efeito-queima__clarao {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.foco__entrada,
+.efeito-apagado__broto,
+.efeito-queima__chama {
+  transform-origin: 50% 65%;
+}
+
+.foco__entrada {
+  animation: aparece 150ms ease-out;
+}
+
+/* O ponto queimado surge por baixo da chama que cresce. */
+.queimado {
+  animation: aparece 150ms ease-out;
+}
+
+.efeito-captura__pedra,
+.efeito-queima__chama {
+  animation: some 150ms ease-out forwards;
+}
+
+.efeito-captura__po {
+  fill: var(--terra-500);
+  opacity: 0;
+}
+
+.efeito-captura__po--1 {
+  --po-x: -18px;
+  --po-y: 8px;
+}
+
+.efeito-captura__po--2 {
+  --po-x: 16px;
+  --po-y: 12px;
+}
+
+.efeito-captura__po--3 {
+  --po-x: 3px;
+  --po-y: -18px;
+}
+
+.efeito-apagado__broto {
+  animation: broto-calmo 1500ms ease-out forwards;
+}
+
+.efeito-queima__clarao {
+  fill: var(--brasa-300);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-movimento='parado']) {
+    .peca--pulo {
+      transition-duration: 320ms;
+    }
+
+    .peca__pedra--passo {
+      animation: peca-passo 220ms ease-out;
+    }
+
+    .peca__pedra--pulo {
+      animation: peca-pulo 320ms ease-out;
+    }
+
+    .foco__entrada {
+      animation: foco-nasce 400ms ease-out;
+    }
+
+    .queimado {
+      animation: aparece 400ms ease-out 300ms backwards;
+    }
+
+    .efeito-captura__pedra {
+      animation: captura-some 300ms ease-in forwards;
+    }
+
+    .efeito-captura__po {
+      animation: po-espalha 300ms ease-out forwards;
+    }
+
+    .efeito-apagado__broto {
+      animation: broto-brota 1500ms ease-out forwards;
+    }
+
+    .efeito-queima__chama {
+      animation: queima-chama 700ms ease-in forwards;
+    }
+
+    .efeito-queima__clarao {
+      animation: queima-clarao 700ms ease-out forwards;
+    }
+  }
+}

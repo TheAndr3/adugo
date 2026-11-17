@@ -28,7 +28,7 @@ const ESPERADO = {
   'src/arte/capa/capa.svg': ['0 0 1200 900', 40],
   'public/favicon.svg': ['0 0 64 64', 2],
 };
-const ICONES = ['pata-onca', 'pata-cachorro', 'chama', 'broto', 'regras', 'reiniciar', 'trocar', 'voltar', 'fechar', 'sobre'];
+const ICONES = ['pata-onca', 'pata-cachorro', 'chama', 'broto', 'regras', 'reiniciar', 'trocar', 'voltar', 'fechar', 'sobre', 'pausar'];
 for (const nome of ICONES) ESPERADO[`src/arte/icones/${nome}.svg`] = ['0 0 24 24', 1];
 
 // Partes que o CSS anima: a classe precisa existir no arquivo (src/arte/arte.css).

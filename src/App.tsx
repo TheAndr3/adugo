@@ -1,10 +1,10 @@
 import { lazy, Suspense, useEffect, useState, useSyncExternalStore } from 'react';
-import { IconeVoltar } from './arte';
-import { CARTAS } from './conteudo';
-import { criarEstado, ponto as P, type Estado, type Modo } from './motor';
+import { criarBaralho, iniciarPartidaNoBaralho, type BaralhoSessao, type Carta } from './conteudo';
+import type { Estado, Modo } from './motor';
 import { TelaComoJogar } from './telas/TelaComoJogar';
 import { TelaFim } from './telas/TelaFim';
 import { TelaInicio } from './telas/TelaInicio';
+import { TelaPartida } from './telas/TelaPartida';
 import { TelaSobre } from './telas/TelaSobre';
 import './telas/Telas.css';
 
@@ -20,23 +20,34 @@ function navegarHash(novoHash: string): void {
   window.scrollTo({ top: 0, behavior: 'instant' });
 }
 
-const ESTADO_EXEMPLO_FIM: Estado = {
-  ...criarEstado({
-    modo: 'territorio',
-    rodada: 38,
-    capturas: 3,
-    queimados: [P(0, 0), P(0, 4), P(4, 0), P(4, 4), P(2, 0)],
-  }),
-  apagados: { onca: 2, caes: 4 },
-  resultado: { tipo: 'territorio' },
-};
+interface Partida {
+  /** Muda a cada partida nova, para a tela recomeçar do zero. */
+  readonly numero: number;
+  readonly modo: Modo;
+  /** A partida acabou; voltar para `#partida` pelo navegador não pode recomeçá-la. */
+  readonly terminada: boolean;
+}
+
+interface Final {
+  readonly estado: Estado;
+  readonly cartas: readonly Carta[];
+}
 
 // Navegação principal entre as telas (docs/ESTETICA.md, seção 10).
 // A prancha de arte continua acessível em /#prancha.
 export function App() {
   const hash = useSyncExternalStore(assinarHash, () => window.location.hash);
-  const [modoPartida, setModoPartida] = useState<Modo>('territorio');
-  const [estadoFinal] = useState<Estado>(ESTADO_EXEMPLO_FIM);
+  // O baralho vale para a sessão inteira: a segunda partida mostra cartas que ainda não saíram.
+  const [baralho, setBaralho] = useState<BaralhoSessao>(() => criarBaralho(Date.now() >>> 0));
+  const [partida, setPartida] = useState<Partida>({ numero: 0, modo: 'territorio', terminada: false });
+  const [final, setFinal] = useState<Final | null>(null);
+
+  function comecarPartida(modo: Modo): void {
+    setBaralho((atual) => iniciarPartidaNoBaralho(atual));
+    setPartida((atual) => ({ numero: atual.numero + 1, modo, terminada: false }));
+    setFinal(null);
+    navegarHash('#partida');
+  }
 
   useEffect(() => {
     const sufixo = 'Adugo: Território da Onça';
@@ -47,6 +58,17 @@ export function App() {
     else if (hash === '#partida') document.title = `Partida | ${sufixo}`;
     else document.title = sufixo;
   }, [hash]);
+
+  // A tela de fim só existe depois de uma partida. Quem chega nela sem ter jogado
+  // (recarregou a página, colou o endereço) volta para o início.
+  const semFinal = hash === '#fim' && final === null;
+  // Pelo voltar do navegador a partir da tela de fim, a partida encerrada não recomeça:
+  // a pessoa vai para o início. `replace` para o voltar seguinte não cair aqui de novo.
+  const partidaEncerrada = hash === '#partida' && partida.terminada;
+  const irParaInicio = semFinal || partidaEncerrada;
+  useEffect(() => {
+    if (irParaInicio) window.location.replace('#');
+  }, [irParaInicio]);
 
   if (hash === '#prancha') {
     return (
@@ -60,57 +82,41 @@ export function App() {
     return <TelaSobre aoVoltar={() => navegarHash('')} />;
   }
 
-  if (hash === '#fim') {
+  if (hash === '#fim' && final) {
     return (
       <TelaFim
-        estado={estadoFinal}
-        cartasDaPartida={CARTAS.slice(0, 3)}
-        aoJogarDeNovo={() => navegarHash('#partida')}
+        estado={final.estado}
+        cartasDaPartida={final.cartas}
+        aoJogarDeNovo={() => comecarPartida(final.estado.modo)}
         aoVoltarInicio={() => navegarHash('')}
       />
     );
   }
 
   if (hash === '#como-jogar') {
-    return (
-      <TelaComoJogar
-        aoVoltar={() => navegarHash('')}
-        aoIniciarPartida={(modo) => {
-          setModoPartida(modo);
-          navegarHash('#partida');
-        }}
-      />
-    );
+    return <TelaComoJogar aoVoltar={() => navegarHash('')} aoIniciarPartida={comecarPartida} />;
   }
 
-  if (hash === '#partida') {
+  if (hash === '#partida' && !partida.terminada) {
     return (
-      <main className="tela">
-        <header className="tela__topo">
-          <h1>Partida ({modoPartida === 'territorio' ? 'Território da Onça' : 'Adugo clássico'})</h1>
-          <button type="button" className="botao botao--secundario" onClick={() => navegarHash('')}>
-            <IconeVoltar aria-hidden="true" />
-            Voltar ao início
-          </button>
-        </header>
-        <section className="painel tela__secao">
-          <p>A interface da partida entra na Issue #4.</p>
-          <div>
-            <button type="button" className="botao botao--secundario" onClick={() => navegarHash('#fim')}>
-              Ver tela de fim de partida
-            </button>
-          </div>
-        </section>
-      </main>
+      <TelaPartida
+        key={partida.numero}
+        modo={partida.modo}
+        baralhoInicial={baralho}
+        aoTerminar={(estado, baralhoFinal) => {
+          setBaralho(baralhoFinal);
+          setPartida((atual) => ({ ...atual, terminada: true }));
+          setFinal({ estado, cartas: baralhoFinal.cartasDaPartida });
+          navegarHash('#fim');
+        }}
+        aoSair={() => navegarHash('')}
+      />
     );
   }
 
   return (
     <TelaInicio
-      aoIniciarPartida={(modo) => {
-        setModoPartida(modo);
-        navegarHash('#partida');
-      }}
+      aoIniciarPartida={comecarPartida}
       aoAbrirComoJogar={() => navegarHash('#como-jogar')}
       aoAbrirSobre={() => navegarHash('#sobre')}
     />

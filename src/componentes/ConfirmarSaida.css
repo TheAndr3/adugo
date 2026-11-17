@@ -1,0 +1,36 @@
+.confirmar-saida {
+  width: min(92vw, 480px);
+  padding: 0;
+  border: 2px solid var(--terra-700);
+  color: var(--terra-900);
+}
+
+.confirmar-saida::backdrop {
+  background-color: rgb(35 31 29 / 0.55);
+}
+
+.confirmar-saida[open] {
+  animation: aparece 150ms ease-out;
+}
+
+.confirmar-saida__corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 22px 22px;
+}
+
+.confirmar-saida__corpo h2 {
+  font-size: 1.5rem;
+}
+
+.confirmar-saida__botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  margin-block-start: 6px;
+}
+
+.confirmar-saida__botoes .botao {
+  flex: 1 1 160px;
+}

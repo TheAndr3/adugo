@@ -1,0 +1,242 @@
+/* Tela da partida (docs/ESTETICA.md, seção 10). Ocupa a tela inteira, sem rolagem.
+   Em pé: faixa de cima (vez e botões), tabuleiro, faixa de baixo (placares e rodada).
+   Deitada: um painel de cada lado do tabuleiro, que usa a altura toda. */
+
+.partida {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 56px minmax(0, 1fr) 64px;
+  grid-template-areas:
+    'vez acoes'
+    'palco palco'
+    'placar placar';
+  gap: 8px 12px;
+  height: 100dvh;
+  padding: 8px 12px;
+  overflow: hidden;
+}
+
+.partida__vez {
+  display: flex;
+  grid-area: vez;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.partida__vez .vez {
+  flex: 0 1 auto;
+}
+
+/* Em pé, durante a captura em cadeia, a faixa mostra só a pata para caber o botão. */
+.partida__vez--cadeia .vez {
+  flex: none;
+}
+
+.partida__vez--cadeia .vez__texto {
+  position: absolute;
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.partida__encerrar {
+  min-width: 0;
+  min-height: 48px;
+  padding-inline: 0.9em;
+  white-space: nowrap;
+}
+
+.partida__acoes {
+  display: flex;
+  grid-area: acoes;
+  align-items: center;
+  gap: 8px;
+}
+
+.partida__botao {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 10px;
+}
+
+.partida__botao[aria-pressed='true'] {
+  background: var(--terra-900);
+  color: var(--papel-100);
+}
+
+.partida__rotulo {
+  position: absolute;
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.partida__palco {
+  display: grid;
+  grid-area: palco;
+  place-items: center;
+  min-height: 0;
+}
+
+/* 56 + 64 das faixas, 16 dos vãos e 16 das margens. */
+.partida .tabuleiro {
+  width: min(100vw - 24px, (100dvh - 152px) * 0.722);
+}
+
+.partida__placar {
+  display: flex;
+  grid-area: placar;
+  align-items: stretch;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.partida__rodada {
+  flex: 0 1 auto;
+}
+
+/* ---------- Deitada: projetor e computador ---------- */
+
+@media (min-width: 800px) and (min-aspect-ratio: 1 / 1) {
+  .partida {
+    --painel-icone: 40px;
+    --painel-titulo: clamp(1.375rem, 2.2vw, 1.875rem);
+    --painel-rotulo: clamp(1.25rem, 1.7vw, 1.5rem);
+    --painel-vaga: clamp(32px, 3vw, 44px);
+    --painel-vao: 6px;
+
+    grid-template-columns: minmax(220px, 320px) auto minmax(220px, 320px);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'vez      palco territorio'
+      'capturas palco rodada'
+      '.        palco .'
+      '.        palco acoes';
+    justify-content: center;
+    gap: 16px 24px;
+    padding: 16px 24px;
+  }
+
+  .partida--classico {
+    grid-template-areas:
+      'vez      palco rodada'
+      'capturas palco .'
+      '.        palco .'
+      '.        palco acoes';
+  }
+
+  .partida .tabuleiro {
+    width: min(100vw - 536px, (100dvh - 32px) * 0.722);
+  }
+
+  .partida__vez {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .partida__vez .vez {
+    min-height: 72px;
+    padding: 12px 16px;
+  }
+
+  .partida__vez .vez__texto,
+  .partida__vez--cadeia .vez__texto {
+    position: static;
+    clip-path: none;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    white-space: normal;
+  }
+
+  .partida__encerrar {
+    min-height: 56px;
+    font-size: var(--painel-rotulo);
+  }
+
+  .partida__placar {
+    display: contents;
+  }
+
+  .partida__capturas {
+    grid-area: capturas;
+  }
+
+  .partida__territorio {
+    grid-area: territorio;
+  }
+
+  .partida__rodada {
+    grid-area: rodada;
+  }
+
+  .partida .placar,
+  .partida .rodada {
+    gap: 8px;
+    padding: 12px 16px;
+  }
+
+  .partida__acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .partida__botao {
+    justify-content: flex-start;
+    min-height: 56px;
+    padding: 6px 16px;
+    font-size: 1.25rem;
+    text-align: left;
+  }
+
+  .partida__rotulo {
+    position: static;
+    clip-path: none;
+    width: auto;
+    height: auto;
+    overflow: visible;
+  }
+}
+
+/* ---------- Território destruído: a tela escurece de fora para dentro ---------- */
+
+@property --partida-raio {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: -40%;
+}
+
+@keyframes partida-fecha {
+  from {
+    --partida-raio: 100%;
+  }
+  to {
+    --partida-raio: -40%;
+  }
+}
+
+.partida__escurece {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at center,
+    transparent var(--partida-raio),
+    rgb(35 31 29 / 0.6) calc(var(--partida-raio) + 40%)
+  );
+  animation: aparece 150ms ease-out;
+
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-movimento='parado']) & {
+      animation: partida-fecha 900ms ease-in;
+    }
+  }
+}

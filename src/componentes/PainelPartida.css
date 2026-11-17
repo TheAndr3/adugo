@@ -1,0 +1,134 @@
+/* Painel da partida (docs/ESTETICA.md, seção 6). Os tamanhos crescem na disposição deitada
+   por meio das variáveis --painel-*, definidas pela tela da partida. */
+
+/* ---------- De quem é a vez ---------- */
+
+.vez {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 14px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--papel-100);
+  box-shadow: var(--sombra-papel);
+}
+
+.vez__conteudo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  animation: aparece 150ms ease-out;
+
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-movimento='parado']) & {
+      animation: vez-entra 200ms ease-out;
+    }
+  }
+}
+
+@keyframes vez-entra {
+  from {
+    opacity: 0;
+    translate: -12px 0;
+  }
+}
+
+.vez__pata {
+  flex: none;
+  width: var(--painel-icone, 28px);
+  height: var(--painel-icone, 28px);
+}
+
+.vez__texto {
+  overflow: hidden;
+  font-family: var(--fonte-titulo);
+  font-size: var(--painel-titulo, 1.125rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Placares ---------- */
+
+.placar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  padding: 6px 10px;
+  border-radius: 14px;
+  background: var(--papel-100);
+  box-shadow: var(--sombra-papel);
+}
+
+.placar__titulo,
+.rodada__numero {
+  font-size: var(--painel-rotulo, 0.875rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.placar__fila {
+  display: flex;
+  gap: var(--painel-vao, 3px);
+}
+
+.placar__vaga {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--painel-vaga, 20px);
+  height: var(--painel-vaga, 20px);
+}
+
+.placar__covinha {
+  width: 62%;
+  height: 62%;
+  border-radius: 50%;
+  background: var(--terra-700);
+  box-shadow: inset -1px -1px 0 1px var(--terra-100);
+  opacity: 0.55;
+}
+
+.placar__chao {
+  width: 84%;
+  height: 84%;
+  border: 2px solid var(--terra-700);
+  border-radius: 50%;
+  background: var(--terra-300);
+}
+
+.placar__pedra,
+.placar__queimado {
+  width: 100%;
+  height: 100%;
+  animation: aparece 300ms ease-out;
+}
+
+.placar__queimado {
+  scale: 1.25;
+}
+
+/* ---------- Rodada ---------- */
+
+.rodada {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 6px 10px;
+  border-radius: 14px;
+  background: var(--papel-100);
+  box-shadow: var(--sombra-papel);
+}
+
+.rodada__fogo {
+  font-size: var(--painel-rotulo, 0.875rem);
+  line-height: 1.15;
+}

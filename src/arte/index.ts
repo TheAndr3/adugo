@@ -27,6 +27,7 @@ export { default as IconeTrocar } from './icones/trocar.svg?react';
 export { default as IconeVoltar } from './icones/voltar.svg?react';
 export { default as IconeFechar } from './icones/fechar.svg?react';
 export { default as IconeSobre } from './icones/sobre.svg?react';
+export { default as IconePausar } from './icones/pausar.svg?react';
 
 /** As três variantes de seixo. Cada cachorro usa sempre a mesma, pelo seu índice. */
 export const CACHORROS = [CachorroA, CachorroB, CachorroC] as const;
