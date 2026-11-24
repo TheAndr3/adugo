@@ -1,5 +1,5 @@
 // Tela inicial do jogo (docs/ESTETICA.md, seção 10, item 1).
-// Exibe o logotipo, subtítulo "Território da Onça", ilustração da capa e os 4 botões.
+// Exibe o logotipo, subtítulo "Território da Onça", ilustração da capa os 4 botões e o rodapé com os criadores e o link do repositório.
 
 import { IconeChama, IconeRegras, IconeSobre, Logotipo } from '../arte';
 import capaUrl from '../arte/capa/capa.svg';
@@ -71,6 +71,18 @@ export function TelaInicio({
           Sobre o jogo e o povo Bororo
         </button>
       </nav>
+
+      <footer className="tela-inicio__rodape">
+        <p>Feito por André Vinícius, José Alberto e Luan Rodrigues</p>
+        <a
+          href="https://github.com/TheAndr3/adugo"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Código do projeto no GitHub
+          <span className="visually-hidden"> (abre em nova aba)</span>
+        </a>
+      </footer>
     </main>
   );
 }
