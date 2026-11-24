@@ -24,7 +24,7 @@ interface Partida {
   /** Muda a cada partida nova, para a tela recomeçar do zero. */
   readonly numero: number;
   readonly modo: Modo;
-  /** A partida acabou; voltar para `#partida` pelo navegador não pode recomeçá-la. */
+  /** A partida acabou ou foi abandonada; voltar para `#partida` pelo navegador não pode recomeçá-la. */
   readonly terminada: boolean;
 }
 
@@ -109,7 +109,11 @@ export function App() {
           setFinal({ estado, cartas: baralhoFinal.cartasDaPartida });
           navegarHash('#fim');
         }}
-        aoSair={() => navegarHash('')}
+        aoSair={() => {
+          // Partida abandonada também não recomeça pelo voltar do navegador.
+          setPartida((atual) => ({ ...atual, terminada: true }));
+          navegarHash('');
+        }}
       />
     );
   }

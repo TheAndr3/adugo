@@ -81,6 +81,44 @@ export function TelaPartida({ modo, baralhoInicial, aoTerminar, aoSair }: TelaPa
     };
   }, [parado]);
 
+  // Voltar do navegador (ou o gesto de voltar do celular) no meio da partida: uma entrada
+  // extra no histórico, com o mesmo endereço, segura o primeiro voltar e abre a mesma
+  // confirmação do botão "Sair da partida".
+  const protegida = precisaConfirmarSaida(estado);
+  const guarda = useRef(false);
+  const protegidaAgora = useRef(protegida);
+  protegidaAgora.current = protegida;
+  const sairAgora = useRef(aoSair);
+  sairAgora.current = aoSair;
+
+  const armarGuarda = useCallback((): void => {
+    if (guarda.current) return;
+    window.history.pushState({ adugoGuarda: true }, '');
+    guarda.current = true;
+  }, []);
+
+  useEffect(() => {
+    if (protegida) armarGuarda();
+  }, [protegida, armarGuarda]);
+
+  useEffect(() => {
+    const aoVoltar = (): void => {
+      // Só conta como "voltar" quem continua em #partida, na entrada de baixo da guarda.
+      // A navegação da própria aplicação (para #fim ou para o início) troca o endereço.
+      if (!guarda.current || window.location.hash !== '#partida' || window.history.state?.adugoGuarda) return;
+      guarda.current = false;
+      if (protegidaAgora.current) setPerguntandoSaida(true);
+      else sairAgora.current();
+    };
+    window.addEventListener('popstate', aoVoltar);
+    return () => window.removeEventListener('popstate', aoVoltar);
+  }, []);
+
+  function continuarJogando(): void {
+    setPerguntandoSaida(false);
+    if (protegidaAgora.current) armarGuarda();
+  }
+
   function jogar(jogada: Jogada): void {
     const passo = aplicar(estado, jogada);
     const novo = passo.estado;
@@ -202,7 +240,7 @@ export function TelaPartida({ modo, baralhoInicial, aoTerminar, aoSair }: TelaPa
       </p>
 
       <ModalCarta carta={carta} aoFechar={aoFecharCarta} />
-      <ConfirmarSaida aberto={perguntandoSaida} aoSair={aoSair} aoContinuar={() => setPerguntandoSaida(false)} />
+      <ConfirmarSaida aberto={perguntandoSaida} aoSair={aoSair} aoContinuar={continuarJogando} />
 
       {estado.resultado?.tipo === 'territorio' && <div className="partida__escurece" aria-hidden="true" />}
     </main>
