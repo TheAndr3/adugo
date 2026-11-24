@@ -141,6 +141,7 @@ O traço não é reto. Cada uma das 18 linhas é um risco contínuo: passa por t
 | `public/favicon.svg` | SVG | `0 0 64 64` | Aba do navegador | 2 KB |
 | `public/icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180) | PNG | — | Ícone de atalho | 40 KB cada |
 | `public/og.jpg` | JPEG | 1200 × 630 px | Prévia do link em mensagens | 300 KB |
+| `public/manifest.webmanifest` | JSON | — | Nome, cores e ícones 192 e 512 para "adicionar à tela inicial" | — |
 
 Os PNG e o JPEG (`og.jpg`, ~203 KB; em PNG a textura granulada do chão passava de 400 KB) são exportados dos SVG por script (`npm run arte:png`). Nenhum é desenhado à parte.
 
