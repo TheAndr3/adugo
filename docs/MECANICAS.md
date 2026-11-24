@@ -157,7 +157,19 @@ Leitura:
 - A partida dura de 40 a 45 rodadas, cerca de 10 a 15 minutos.
 - Se ninguém apagar nada, o território é destruído no fim da rodada 21.
 
-**Limite desta simulação:** o bot dos cachorros é fraco e quase nunca fecha o cerco. Os números medem o ritmo do fogo, **não o equilíbrio entre onça e cachorros**. Esse equilíbrio precisa de um bot com busca (tarefa do motor) e de partidas com pessoas.
+**Limite desta simulação:** o bot dos cachorros é fraco e quase nunca fecha o cerco. Os números medem o ritmo do fogo, **não o equilíbrio entre onça e cachorros**.
+
+### 6.1 Simulador com busca (issue 8)
+
+Para medir o equilíbrio, criamos um segundo simulador, `tools/sim-equilibrio.mjs`. Ele usa o motor do próprio jogo (`src/motor`), e não uma cópia das regras. Os bots ficam em `src/simulacao` e **não entram no jogo**, que continua sendo só para duas pessoas.
+
+- **Como rodar:** `npm run sim:equilibrio`. Há três grupos (`--grupo relatorio`, `sensibilidade` ou `calibrar`) e o número de partidas por linha é ajustável (`--partidas 100`). As partidas rodam em paralelo, uma por núcleo.
+- **Como os bots jogam:** cada lado olha de 2 a 3 jogadas à frente e escolhe o melhor lance para si. Território destruído, cerco com fogo e empate contam como derrota dos dois. A avaliação considera capturas, pulos possíveis, espaço livre da onça e cachorros expostos, e dá ao fogo o mesmo custo para os dois lados.
+- **O que o simulador mede além do resultado:** focos apagados por lado, pontos queimados e quantas vezes um pulo da onça ficou fechado só porque o pouso estava queimado (o ponto aberto da seção 5.3).
+
+**Resultado.** Em 48 partidas no modo clássico com bots que olham 2 jogadas à frente, a onça venceu 8%, os cachorros 0%, e **92% terminaram empatadas no limite de 100 rodadas**. Os cachorros conseguem empurrar a onça para a toca, mas não fecham o cerco: o fechamento exige um plano de três ou quatro jogadas combinadas, além do que a busca enxerga. Os ajustes de avaliação que testamos (mais peso para o espaço da onça, para cachorros expostos e para aproximação) não mudaram esse quadro.
+
+**Decisão.** O equilíbrio entre onça e cachorros **não foi calibrado por simulação**. A equipe considerou o jogo pronto, e os números da seção 9 ficam como estão. O equilíbrio e o ponto aberto da seção 5.3 ficam para as partidas com pessoas (seção 11). O simulador fica no repositório para quem quiser continuar: a melhora mais promissora é aprofundar a busca dos cachorros quando a onça já está quase presa (o campo `fimDeCerco` dos perfis, ainda sem medição).
 
 ## 7. Cartas
 
@@ -238,3 +250,4 @@ export const CONFIG = {
 - Se o aviso de 2 rodadas é claro para quem joga pela primeira vez.
 - Se a regra do cerco com fogo é entendida sem explicação do mediador.
 - Se a quantidade de cartas interrompe demais.
+- Se o cachorro protegido por um ponto queimado atrás dele (seção 5.3) pesa a favor dos cachorros a ponto de pedir a regra de "empurrar".
